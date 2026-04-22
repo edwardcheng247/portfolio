@@ -35,14 +35,16 @@ function LiveClock() {
 }
 
 const ASCII_CHARS = ['✻', '✽', '✶', '✳', '✢']
+const ASCII_CHARS_MOBILE = ['✻', '✽', '✶', '•', '✢']
 
 function AsciiSpinner() {
+  const chars = window.matchMedia('(max-width: 480px)').matches ? ASCII_CHARS_MOBILE : ASCII_CHARS
   const [i, setI] = useState(0)
 
   useEffect(() => {
-    const interval = setInterval(() => setI(n => (n + 1) % ASCII_CHARS.length), 250)
+    const interval = setInterval(() => setI(n => (n + 1) % chars.length), 250)
     return () => clearInterval(interval)
-  }, [])
+  }, [chars.length])
 
   return (
     <span className="ascii-badge">
