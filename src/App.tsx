@@ -198,6 +198,8 @@ function Home() {
                   className="work-image"
                   onLoad={e => {
                     const img = e.currentTarget
+                    img.classList.add('work-image--loaded')
+                    img.closest('.work-card')?.classList.add('work-card--loaded')
                     setRow1Flex(prev => ({ ...prev, left: img.naturalWidth / img.naturalHeight }))
                   }}
                 />
@@ -214,6 +216,8 @@ function Home() {
                   className="work-image"
                   onLoad={e => {
                     const img = e.currentTarget
+                    img.classList.add('work-image--loaded')
+                    img.closest('.work-card')?.classList.add('work-card--loaded')
                     setRow1Flex(prev => ({ ...prev, right: img.naturalWidth / img.naturalHeight }))
                   }}
                 />
@@ -232,6 +236,8 @@ function Home() {
                   className="work-image"
                   onLoad={e => {
                     const img = e.currentTarget
+                    img.classList.add('work-image--loaded')
+                    img.closest('.work-card')?.classList.add('work-card--loaded')
                     setRow2Flex(prev => ({ ...prev, left: img.naturalWidth / img.naturalHeight }))
                   }}
                 />
@@ -248,6 +254,8 @@ function Home() {
                   className="work-image"
                   onLoad={e => {
                     const img = e.currentTarget
+                    img.classList.add('work-image--loaded')
+                    img.closest('.work-card')?.classList.add('work-card--loaded')
                     setRow2Flex(prev => ({ ...prev, right: img.naturalWidth / img.naturalHeight }))
                   }}
                 />
@@ -258,7 +266,16 @@ function Home() {
               data-tooltip="Benny App"
               onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
             >
-              <img src="/benny_app.png" alt="Benny App" className="work-image" />
+              <img
+                src="/benny_app.png"
+                alt="Benny App"
+                className="work-image"
+                onLoad={e => {
+                  const img = e.currentTarget
+                  img.classList.add('work-image--loaded')
+                  img.closest('.work-card')?.classList.add('work-card--loaded')
+                }}
+              />
             </div>
           </div>
         </section>
