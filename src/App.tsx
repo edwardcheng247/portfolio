@@ -48,7 +48,7 @@ function AsciiSpinner() {
 
   return (
     <span className="ascii-badge">
-      <span className="ascii-char">{ASCII_CHARS[i]}</span>
+      <span className="ascii-char">{chars[i]}</span>
       {' '}Claude-coded <span className="ascii-gray">in Palo Alto CA</span>
     </span>
   )
