@@ -55,9 +55,9 @@ function AsciiSpinner() {
 }
 
 const pastLives = [
-  { role: 'Founding Designer at Benny', years: '2024 – 2026' },
-  { role: 'Product Designer at UrbanFootprint', years: '2019 – 2024' },
-  { role: 'Visual Designer at FactoryFour', years: '2018 – 2019' },
+  { role: 'Founding Designer at Benny', years: '2024\u2009–\u20092026' },
+  { role: 'Product Designer at UrbanFootprint', years: '2019\u2009–\u20092024' },
+  { role: 'Visual Designer at FactoryFour', years: '2018\u2009–\u20092019' },
 ]
 
 const shouts = [
