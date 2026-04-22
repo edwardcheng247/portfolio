@@ -105,9 +105,15 @@ function Home() {
       const workLink = (e.target as Element).closest<HTMLElement>('[data-tooltip]')
       if (workLink) {
         const tooltipWidth = tooltipRef.current ? tooltipRef.current.offsetWidth : 160
-        const flipped = e.clientX + 13 + tooltipWidth > window.innerWidth
+        const isMobile = window.innerWidth <= 768
+        let x = e.clientX
+        if (isMobile) {
+          const margin = 12
+          x = Math.max(tooltipWidth / 2 + margin, Math.min(window.innerWidth - tooltipWidth / 2 - margin, e.clientX))
+        }
+        const flipped = !isMobile && e.clientX + 13 + tooltipWidth > window.innerWidth
         document.body.classList.toggle('cursor-flipped', flipped)
-        setTooltip({ visible: true, text: workLink.dataset.tooltip!, x: e.clientX, y: e.clientY, flipped })
+        setTooltip({ visible: true, text: workLink.dataset.tooltip!, x, y: e.clientY, flipped })
       }
     }
     const handleScroll = () => {
