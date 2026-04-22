@@ -113,6 +113,10 @@ body {
   padding: 48px 0;
 }
 
+.section--work {
+  padding-bottom: 96px;
+}
+
 .section-label {
   font-size: 13px;
   color: var(--text-muted);
