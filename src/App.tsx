@@ -195,6 +195,8 @@ function Home() {
                 <img
                   src="/benny_card.png"
                   alt="Benny Card"
+                  width={1642}
+                  height={844}
                   className="work-image"
                   onLoad={e => {
                     const img = e.currentTarget
@@ -213,6 +215,8 @@ function Home() {
                 <img
                   src="/urbanfootprint_series_b.png"
                   alt="UrbanFootprint"
+                  width={1390}
+                  height={704}
                   className="work-image"
                   onLoad={e => {
                     const img = e.currentTarget
@@ -233,6 +237,8 @@ function Home() {
                 <img
                   src="/benny_merchants.png"
                   alt="Benny Merchants"
+                  width={1014}
+                  height={2332}
                   className="work-image"
                   onLoad={e => {
                     const img = e.currentTarget
@@ -251,6 +257,8 @@ function Home() {
                 <img
                   src="/benny_dashboards.png"
                   alt="Benny Dashboards"
+                  width={2502}
+                  height={3132}
                   className="work-image"
                   onLoad={e => {
                     const img = e.currentTarget
@@ -269,6 +277,8 @@ function Home() {
               <img
                 src="/benny_app.png"
                 alt="Benny App"
+                width={2070}
+                height={844}
                 className="work-image"
                 onLoad={e => {
                   const img = e.currentTarget
