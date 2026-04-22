@@ -62,6 +62,8 @@ export function DotGrid() {
     buildDots()
 
     const onResize = () => { resizeCanvas(); buildDots() }
+    const onDprChange = () => { resizeCanvas() }
+    window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`).addEventListener('change', onDprChange)
     window.addEventListener('resize', onResize)
 
     const ro = new ResizeObserver(buildDots)
@@ -77,6 +79,8 @@ export function DotGrid() {
     document.addEventListener('mouseleave', onMouseLeave)
 
     const draw = () => {
+      const dpr = window.devicePixelRatio || 1
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
 
       const scrollX = window.scrollX
@@ -149,6 +153,7 @@ export function DotGrid() {
       window.removeEventListener('resize', onResize)
       window.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('mouseleave', onMouseLeave)
+      window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`).removeEventListener('change', onDprChange)
       ro.disconnect()
       cancelAnimationFrame(rafRef.current)
     }
