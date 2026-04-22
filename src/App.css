@@ -228,12 +228,31 @@ body {
 
 .work-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(6, 1fr);
   gap: 18px;
 }
 
 .work-card {
   padding: 24px 28px 28px;
+}
+
+.work-row-dynamic {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.work-card--half {
+  grid-column: span 3;
+}
+
+.work-card--two-thirds {
+  grid-column: span 4;
+}
+
+.work-card--one-third {
+  grid-column: span 2;
 }
 
 .work-card--wide {
@@ -408,8 +427,23 @@ body.cursor-flipped .work-link {
     grid-template-columns: 1fr;
   }
 
+  .work-card--half,
+  .work-card--two-thirds,
+  .work-card--one-third,
   .work-card--wide {
     grid-column: 1;
+  }
+
+  .work-row-dynamic {
+    flex-direction: column;
+  }
+
+  .work-row-dynamic .work-card {
+    flex: 1 1 auto !important;
+  }
+
+  .work-card {
+    padding: 14px 16px 16px;
   }
 
   .past-lives-role {
