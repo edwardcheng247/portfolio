@@ -426,6 +426,12 @@ body {
   color: var(--text-muted);
 }
 
+.ascii-mobile-heart {
+  display: none;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
 .footer-clock {
   font-variant-numeric: tabular-nums;
   min-width: 8ch;
@@ -518,5 +524,9 @@ body.cursor-flipped .work-link {
 
   .ascii-gray {
     display: none;
+  }
+
+  .ascii-mobile-heart {
+    display: inline;
   }
 }
