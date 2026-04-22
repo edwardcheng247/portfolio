@@ -235,6 +235,10 @@ body {
   font-weight: 600;
 }
 
+.shout-from-note {
+  font-weight: 400;
+}
+
 /* ── Selected Work ── */
 
 .work-grid {

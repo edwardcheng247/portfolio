@@ -194,7 +194,11 @@ function Home() {
             {shouts.map((shout) => (
               <div key={shout.from} className="shout-card glass-card">
                 <p className="shout-quote">{shout.quote}</p>
-                <p className="shout-from">{shout.from}</p>
+                <p className="shout-from">
+                  {shout.from.includes('(allegedly)') ? (
+                    <>{shout.from.replace(' (allegedly)', '')} <span className="shout-from-note">(allegedly)</span></>
+                  ) : shout.from}
+                </p>
               </div>
             ))}
           </div>
