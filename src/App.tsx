@@ -124,12 +124,24 @@ function Home() {
         const workTop = workEl.getBoundingClientRect().top
         setActiveSection(workTop <= 120 ? 'work' : 'about')
       }
+
+      // Mobile: hide tooltip on scroll
+      if (window.innerWidth <= 768) {
+        setTooltip(t => ({ ...t, visible: false }))
+      }
+    }
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (!(e.target as Element).closest('[data-tooltip]')) {
+        setTooltip(t => ({ ...t, visible: false }))
+      }
     }
     window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('touchend', handleTouchEnd, { passive: true })
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('touchend', handleTouchEnd)
     }
   }, [])
 
