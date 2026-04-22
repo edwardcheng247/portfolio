@@ -82,6 +82,7 @@ const shouts = [
 
 function Home() {
   const [navVisible, setNavVisible] = useState(true)
+  const [activeSection, setActiveSection] = useState<'about' | 'work'>('about')
   const lastScrollY = useRef(0)
   const [tooltip, setTooltip] = useState<{ visible: boolean; text: string; x: number; y: number; flipped: boolean }>({
     visible: false,
@@ -117,6 +118,12 @@ function Home() {
         setNavVisible(true)
       }
       lastScrollY.current = y
+
+      const workEl = document.getElementById('work')
+      if (workEl) {
+        const workTop = workEl.getBoundingClientRect().top
+        setActiveSection(workTop <= 120 ? 'work' : 'about')
+      }
     }
     window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -140,10 +147,9 @@ function Home() {
       <nav className="nav">
         <span className="nav-name">Edward Cheng</span>
         <div className="nav-links">
-          <a href="#work">Work</a>
-          <a href="#about" className="nav-active">
-            About <span className="nav-dot">•</span>
-          </a>
+          <a href="#about" className={activeSection === 'about' ? 'nav-active' : ''}>{activeSection === 'about' && <span className="nav-dot">• </span>}About</a>
+          <a href="#work" className={activeSection === 'work' ? 'nav-active' : ''}>{activeSection === 'work' && <span className="nav-dot">• </span>}Work</a>
+          <a href="https://resume.edwardcheng.co/" target="_blank" rel="noreferrer">CV</a>
         </div>
       </nav>
     </header>
@@ -179,40 +185,6 @@ function Home() {
         <section className="section" id="work">
           <p className="section-label">Selected work</p>
           <div className="work-grid">
-            <div className="work-row-dynamic">
-              <div
-                className="work-card glass-card work-link"
-                style={{ flex: row1Flex.left }}
-                data-tooltip="Benny Card"
-                onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
-              >
-                <img
-                  src="/benny_card.png"
-                  alt="Benny Card"
-                  className="work-image"
-                  onLoad={e => {
-                    const img = e.currentTarget
-                    setRow1Flex(prev => ({ ...prev, left: img.naturalWidth / img.naturalHeight }))
-                  }}
-                />
-              </div>
-              <div
-                className="work-card glass-card work-link"
-                style={{ flex: row1Flex.right }}
-                data-tooltip="UrbanFootprint"
-                onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
-              >
-                <img
-                  src="/urbanfootprint_series_b.png"
-                  alt="UrbanFootprint"
-                  className="work-image"
-                  onLoad={e => {
-                    const img = e.currentTarget
-                    setRow1Flex(prev => ({ ...prev, right: img.naturalWidth / img.naturalHeight }))
-                  }}
-                />
-              </div>
-            </div>
             <div className="work-row-dynamic">
               <div
                 className="work-card glass-card work-link"
@@ -253,6 +225,40 @@ function Home() {
               onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
             >
               <img src="/benny_app.png" alt="Benny App" className="work-image" />
+            </div>
+            <div className="work-row-dynamic">
+              <div
+                className="work-card glass-card work-link"
+                style={{ flex: row1Flex.left }}
+                data-tooltip="Benny Card"
+                onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
+              >
+                <img
+                  src="/benny_card.png"
+                  alt="Benny Card"
+                  className="work-image"
+                  onLoad={e => {
+                    const img = e.currentTarget
+                    setRow1Flex(prev => ({ ...prev, left: img.naturalWidth / img.naturalHeight }))
+                  }}
+                />
+              </div>
+              <div
+                className="work-card glass-card work-link"
+                style={{ flex: row1Flex.right }}
+                data-tooltip="UrbanFootprint"
+                onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
+              >
+                <img
+                  src="/urbanfootprint_series_b.png"
+                  alt="UrbanFootprint"
+                  className="work-image"
+                  onLoad={e => {
+                    const img = e.currentTarget
+                    setRow1Flex(prev => ({ ...prev, right: img.naturalWidth / img.naturalHeight }))
+                  }}
+                />
+              </div>
             </div>
           </div>
         </section>

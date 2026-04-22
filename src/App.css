@@ -93,8 +93,12 @@ body {
 }
 
 .nav-dot {
-  color: var(--text-muted);
-  margin-left: 1px;
+  color: #73706e;
+  font-size: 8px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+  margin-right: 4px;
 }
 
 /* ── Main ── */
@@ -159,7 +163,9 @@ body {
 }
 
 .past-lives-years {
-  font-size: 14px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 13.5px;
+  letter-spacing: -0.01em;
   color: var(--text-muted);
   white-space: nowrap;
   margin-left: 24px;
@@ -258,7 +264,6 @@ body {
 .work-card--wide {
   grid-column: 1 / -1;
   min-height: unset;
-  margin-bottom: 48px;
 }
 
 .work-image {
