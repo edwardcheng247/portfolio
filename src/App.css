@@ -457,6 +457,11 @@ body.cursor-flipped .work-link {
 /* ── Mobile ── */
 
 @media (max-width: 768px) {
+  .work-tooltip,
+  .work-tooltip--flipped {
+    transform: translate(-50%, calc(-100% - 14px));
+  }
+
   .site {
     padding: 0 24px;
   }
