@@ -468,19 +468,22 @@ function Home() {
                 data-tooltip="Benny API"
                 onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
               >
-                <img
-                  src="/benny_merchants.png"
-                  alt="Benny Merchants"
-                  width={1014}
-                  height={2332}
-                  className="work-image"
-                  onLoad={e => {
-                    const img = e.currentTarget
-                    img.classList.add('work-image--loaded')
-                    img.closest('.work-card')?.classList.add('work-card--loaded')
-                    setRow2Flex(prev => ({ ...prev, left: img.naturalWidth / img.naturalHeight }))
-                  }}
-                />
+                <picture>
+                  <source media="(max-width: 768px)" srcSet="/benny_merchants_mobile.png" />
+                  <img
+                    src="/benny_merchants.png"
+                    alt="Benny Merchants"
+                    width={1014}
+                    height={2332}
+                    className="work-image"
+                    onLoad={e => {
+                      const img = e.currentTarget
+                      img.classList.add('work-image--loaded')
+                      img.closest('.work-card')?.classList.add('work-card--loaded')
+                      setRow2Flex(prev => ({ ...prev, left: img.naturalWidth / img.naturalHeight }))
+                    }}
+                  />
+                </picture>
               </div>
               <div
                 className="work-card glass-card work-link"
