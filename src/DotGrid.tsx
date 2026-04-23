@@ -104,14 +104,8 @@ export function DotGrid() {
       }, 500)
     }
 
-    if (isMobile) {
-      window.addEventListener('touchstart', onTouchStart, { passive: true })
-      window.addEventListener('touchmove', onTouchMove, { passive: true })
-      window.addEventListener('touchend', onTouchEnd, { passive: true })
-    } else {
-      window.addEventListener('mousemove', onMouseMove)
-      document.addEventListener('mouseleave', onMouseLeave)
-    }
+    window.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseleave', onMouseLeave)
 
     const draw = () => {
       const dpr = window.devicePixelRatio || 1
@@ -189,16 +183,9 @@ export function DotGrid() {
       window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`).removeEventListener('change', onDprChange)
       ro.disconnect()
       cancelAnimationFrame(rafRef.current)
-      if (isMobile) {
-        window.removeEventListener('touchstart', onTouchStart)
-        window.removeEventListener('touchmove', onTouchMove)
-        window.removeEventListener('touchend', onTouchEnd)
-        if (touchEndTimerRef.current) clearTimeout(touchEndTimerRef.current)
-      } else {
-        window.removeEventListener('mousemove', onMouseMove)
-        document.removeEventListener('mouseleave', onMouseLeave)
-        if (mouseIdleTimer) clearTimeout(mouseIdleTimer)
-      }
+      window.removeEventListener('mousemove', onMouseMove)
+      document.removeEventListener('mouseleave', onMouseLeave)
+      if (mouseIdleTimer) clearTimeout(mouseIdleTimer)
     }
   }, [])
 
