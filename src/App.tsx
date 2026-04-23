@@ -192,11 +192,12 @@ function Home() {
         tooltipDragRef.current = { startX: t.clientX, startY: t.clientY, origX: tooltip.x, origY: tooltip.y }
       }}
       onTouchMove={(e) => {
-        if (!tooltipDragRef.current) return
+        const drag = tooltipDragRef.current
+        if (!drag) return
         const t = e.touches[0]
-        const dx = t.clientX - tooltipDragRef.current.startX
-        const dy = t.clientY - tooltipDragRef.current.startY
-        setTooltip(prev => ({ ...prev, x: tooltipDragRef.current!.origX + dx, y: tooltipDragRef.current!.origY + dy }))
+        const dx = t.clientX - drag.startX
+        const dy = t.clientY - drag.startY
+        setTooltip(prev => ({ ...prev, x: drag.origX + dx, y: drag.origY + dy }))
       }}
       onTouchEnd={(e) => {
         e.stopPropagation()
