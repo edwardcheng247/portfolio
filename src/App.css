@@ -498,12 +498,18 @@ body.cursor-flipped .work-link {
     grid-column: 1;
   }
 
+  /* Flatten row wrappers so all cards are direct grid children */
   .work-row-dynamic {
-    flex-direction: column;
+    display: contents;
   }
 
-  .work-row-dynamic .work-card {
-    flex: 1 1 auto !important;
+  /* Order: Benny Card, UF, Benny API, Benny App, Benny Dashboards */
+  .work-card--wide {
+    order: 4;
+  }
+
+  .work-grid > .work-row-dynamic:nth-child(2) > .work-card:last-child {
+    order: 5;
   }
 
   .work-card {

@@ -296,18 +296,21 @@ function Home() {
               data-tooltip="Benny App"
               onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
             >
-              <img
-                src="/benny_app.png"
-                alt="Benny App"
-                width={2070}
-                height={844}
-                className="work-image"
-                onLoad={e => {
-                  const img = e.currentTarget
-                  img.classList.add('work-image--loaded')
-                  img.closest('.work-card')?.classList.add('work-card--loaded')
-                }}
-              />
+              <picture>
+                <source media="(max-width: 768px)" srcSet="/benny_app_mobile.png" width={1652} height={844} />
+                <img
+                  src="/benny_app.png"
+                  alt="Benny App"
+                  width={2070}
+                  height={844}
+                  className="work-image"
+                  onLoad={e => {
+                    const img = e.currentTarget
+                    img.classList.add('work-image--loaded')
+                    img.closest('.work-card')?.classList.add('work-card--loaded')
+                  }}
+                />
+              </picture>
             </div>
           </div>
         </section>
