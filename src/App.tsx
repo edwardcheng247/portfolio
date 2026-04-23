@@ -282,7 +282,7 @@ function Home() {
               <div key={shout.from} className="shout-card glass-card" data-tooltip={shout.name} data-tooltip-sub={shout.company} data-tooltip-color={shout.colorClass} data-person={shout.colorClass} onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}>
                 <p className="shout-quote">{shout.quote}</p>
                 <p className="shout-from">
-                  {shout.from.includes('[allegedly]') ? <>{shout.from.replace(' [allegedly]', '')}{' \u2009'}<span className="shout-from-note">[allegedly]</span></> : shout.from}
+                  {shout.from.includes('[allegedly]') ? <>{shout.from.replace(' [allegedly]', '')}<br /><span className="shout-from-note">[allegedly]</span></> : shout.from}
                 </p>
               </div>
             ))}
