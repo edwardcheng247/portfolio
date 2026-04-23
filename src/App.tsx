@@ -49,7 +49,7 @@ function AsciiSpinner() {
   return (
     <span className="ascii-badge">
       <span className="ascii-char">{chars[i]}</span>
-      {' '}Claude-coded <span className="ascii-gray">from Palo Alto, CA</span><span className="ascii-mobile-heart"> with ♡</span>
+      {' '}Claude-coded <span className="ascii-gray">Palo Alto CA</span><span className="ascii-mobile-heart"> with ♡</span>
     </span>
   )
 }
@@ -187,10 +187,12 @@ function Home() {
       if (!(e.target as Element).closest('[data-tooltip]')) {
         setTooltip(t => ({ ...t, visible: false }))
       }
-      // Fade out glow
-      document.querySelectorAll<HTMLElement>('.glass-card, .glow-line').forEach(el => {
-        el.classList.remove('glow-active')
-      })
+      // Fade out glow — delay so ease-in always completes before ease-out begins
+      setTimeout(() => {
+        document.querySelectorAll<HTMLElement>('.glass-card, .glow-line').forEach(el => {
+          el.classList.remove('glow-active')
+        })
+      }, 200)
     }
     window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('scroll', handleScroll, { passive: true })
