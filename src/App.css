@@ -17,6 +17,13 @@
   padding: 0;
 }
 
+.dot-grid-canvas {
+  max-width: none;
+  display: block;
+  width: auto;
+  height: auto;
+}
+
 body {
   background: var(--bg);
   color: var(--text);

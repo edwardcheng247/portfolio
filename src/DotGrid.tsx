@@ -162,7 +162,7 @@ export function DotGrid() {
         const bCh = Math.round(255 * (1 - blend))
 
         ctx.lineWidth = 0.6 + influence * 0.15
-        const alpha = 0.04 + (dot.len / 3) * 0.1
+        const alpha = 0.09 + (dot.len / 3) * 0.1
         const cos = Math.cos(dot.angle)
         const sin = Math.sin(dot.angle)
         ctx.beginPath()
