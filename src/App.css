@@ -497,6 +497,10 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
 /* ── Mobile ── */
 
 @media (max-width: 768px) {
+  .dot-grid-canvas {
+    display: none;
+  }
+
   .work-tooltip,
   .work-tooltip--flipped {
     transform: translate(-50%, calc(-100% - 14px));

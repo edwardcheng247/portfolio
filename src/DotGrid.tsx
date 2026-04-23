@@ -205,6 +205,7 @@ export function DotGrid() {
   return (
     <canvas
       ref={canvasRef}
+      className="dot-grid-canvas"
       style={{
         position: 'fixed',
         top: 0,
