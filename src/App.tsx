@@ -192,7 +192,7 @@ function Home() {
         document.querySelectorAll<HTMLElement>('.glass-card, .glow-line').forEach(el => {
           el.classList.remove('glow-active')
         })
-      }, 200)
+      }, 250)
     }
     window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('scroll', handleScroll, { passive: true })

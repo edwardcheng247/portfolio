@@ -578,12 +578,12 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
 
   .glass-card, .glow-line {
     --glow-alpha: 0;
-    transition: --glow-alpha 0.4s ease-out;
+    transition: --glow-alpha 0.5s ease-out;
   }
 
   .glass-card.glow-active, .glow-line.glow-active {
     --glow-alpha: 1;
-    transition: --glow-alpha 0.15s ease-in;
+    transition: --glow-alpha 0.19s ease-in;
   }
 
   .work-tooltip {
