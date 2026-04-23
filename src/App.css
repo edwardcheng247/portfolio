@@ -246,10 +246,6 @@ body {
 
 /* ── Shouts ── */
 
-@keyframes shouts-scroll {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-50%, 0, 0); }
-}
 
 .section--shouts {
   padding-bottom: 80px;
@@ -265,15 +261,21 @@ body {
   mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
 }
 
-.shouts-carousel:hover .shouts-track {
-  animation-play-state: paused;
+.shouts-carousel {
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.shouts-carousel.is-dragging,
+.shouts-carousel.is-dragging * {
+  cursor: grabbing !important;
 }
 
 .shouts-track {
   display: flex;
   gap: 20px;
   width: max-content;
-  animation: shouts-scroll 80s linear infinite;
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -328,6 +330,9 @@ body {
   color: var(--text);
   line-height: 1.65;
   flex: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 .shout-from {

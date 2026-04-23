@@ -121,6 +121,9 @@ function Home() {
   const cardBoundsRef = useRef<{ yMin: number; yMax: number }>({ yMin: 0, yMax: window.innerHeight })
   const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
   const [row2Flex, setRow2Flex] = useState({ left: 1, right: 1 })
+  const shoutsTrackRef = useRef<HTMLDivElement>(null)
+  const shoutsCarouselRef = useRef<HTMLDivElement>(null)
+  const isDraggingCarouselRef = useRef(false)
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -131,7 +134,7 @@ function Home() {
       })
       const workLink = (e.target as Element).closest<HTMLElement>('[data-tooltip]')
       const isMobile = window.innerWidth <= 768
-      if (workLink && !(isMobile && workLink.dataset.person)) {
+      if (workLink && !(isMobile && workLink.dataset.person) && !isDraggingCarouselRef.current) {
         const tooltipWidth = tooltipRef.current ? tooltipRef.current.offsetWidth : 160
         let x = e.clientX
         if (isMobile) {
@@ -215,6 +218,136 @@ function Home() {
       window.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('touchmove', handleTouchMove)
       window.removeEventListener('touchend', handleTouchEnd)
+    }
+  }, [])
+
+  // ── Shouts carousel physics ──
+  useEffect(() => {
+    const track = shoutsTrackRef.current
+    const carousel = shoutsCarouselRef.current
+    if (!track || !carousel) return
+
+    // Wrap pos into [-halfWidth, 0)
+    const wrapPos = (pos: number, hw: number) => {
+      if (hw <= 0) return pos
+      const r = pos % hw
+      return r > 0 ? r - hw : r
+    }
+
+    const s = {
+      pos: 0,
+      excessVel: 0,       // extra px/ms on top of constant auto-scroll
+      autoVel: 0,         // constant scroll velocity in px/ms (negative = leftward)
+      halfWidth: 0,
+      dragging: false,
+      hovering: false,
+      dragStartX: 0,
+      dragStartPos: 0,
+      samples: [] as { x: number; t: number }[],
+      lastTs: 0,
+      rafId: 0,
+    }
+
+    const measure = () => {
+      if (track.scrollWidth <= 0) return
+      s.halfWidth = track.scrollWidth / 2
+      s.autoVel = -s.halfWidth / 80000  // 80 s for one full loop
+    }
+
+    const tick = (ts: number) => {
+      s.rafId = requestAnimationFrame(tick)
+
+      // Mobile: static grid — clear any stale transform and do nothing
+      if (window.innerWidth <= 768) {
+        if (track.style.transform) track.style.transform = ''
+        return
+      }
+
+      if (s.halfWidth === 0) { measure(); return }
+
+      const dt = s.lastTs ? Math.min(ts - s.lastTs, 50) : 16
+      s.lastTs = ts
+
+      if (!s.dragging && !s.hovering) {
+        // Friction: excess velocity decays toward 0 → total returns to autoVel
+        s.excessVel *= Math.pow(0.96, dt / 16.667)
+        if (Math.abs(s.excessVel) < 0.0001) s.excessVel = 0
+
+        s.pos += (s.autoVel + s.excessVel) * dt
+        s.pos = wrapPos(s.pos, s.halfWidth)
+        track.style.transform = `translate3d(${s.pos}px, 0, 0)`
+      }
+    }
+
+    s.rafId = requestAnimationFrame(tick)
+
+    const onMouseEnter = () => { s.hovering = true }
+    const onMouseLeave = () => { if (!s.dragging) s.hovering = false }
+
+    const onPointerDown = (e: PointerEvent) => {
+      if (window.innerWidth <= 768) return
+      if (e.button !== 0) return
+      e.preventDefault()
+      s.dragging = true
+      isDraggingCarouselRef.current = true
+      s.hovering = false
+      s.dragStartX = e.clientX
+      s.dragStartPos = s.pos
+      s.samples = [{ x: e.clientX, t: e.timeStamp }]
+      carousel.classList.add('is-dragging')
+      ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+    }
+
+    const onPointerMove = (e: PointerEvent) => {
+      if (!s.dragging) return
+      const dx = e.clientX - s.dragStartX
+      s.pos = wrapPos(s.dragStartPos + dx, s.halfWidth)
+      track.style.transform = `translate3d(${s.pos}px, 0, 0)`
+      s.samples.push({ x: e.clientX, t: e.timeStamp })
+      s.samples = s.samples.filter(p => e.timeStamp - p.t < 150)
+    }
+
+    const onPointerUp = () => {
+      if (!s.dragging) return
+      s.dragging = false
+      isDraggingCarouselRef.current = false
+      carousel.classList.remove('is-dragging')
+
+      // Compute flick velocity from recent samples (px/ms, rightward = positive)
+      let flickVel = 0
+      if (s.samples.length >= 2) {
+        const a = s.samples[0]
+        const b = s.samples[s.samples.length - 1]
+        const dt = b.t - a.t
+        if (dt > 5) flickVel = (b.x - a.x) / dt
+      }
+      // Cap speed; set excess so total velocity at release = flick velocity
+      const capped = Math.max(-5, Math.min(5, flickVel))
+      s.excessVel = capped - s.autoVel
+    }
+
+    const onWindowResize = () => {
+      s.halfWidth = 0
+      if (window.innerWidth <= 768) track.style.transform = ''
+    }
+
+    carousel.addEventListener('mouseenter', onMouseEnter)
+    carousel.addEventListener('mouseleave', onMouseLeave)
+    track.addEventListener('pointerdown', onPointerDown)
+    window.addEventListener('pointermove', onPointerMove)
+    window.addEventListener('pointerup', onPointerUp)
+    window.addEventListener('pointercancel', onPointerUp)
+    window.addEventListener('resize', onWindowResize)
+
+    return () => {
+      cancelAnimationFrame(s.rafId)
+      carousel.removeEventListener('mouseenter', onMouseEnter)
+      carousel.removeEventListener('mouseleave', onMouseLeave)
+      track.removeEventListener('pointerdown', onPointerDown)
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerup', onPointerUp)
+      window.removeEventListener('pointercancel', onPointerUp)
+      window.removeEventListener('resize', onWindowResize)
     }
   }, [])
 
@@ -398,8 +531,8 @@ function Home() {
 
         <section className="section section--shouts">
           <p className="section-label">Shouts</p>
-          <div className="shouts-carousel">
-            <div className="shouts-track">
+          <div className="shouts-carousel" ref={shoutsCarouselRef}>
+            <div className="shouts-track" ref={shoutsTrackRef}>
               {[...shouts, ...shouts].map((shout, i) => (
                 <div key={`${shout.from}-${i}`} className="shout-card glass-card" style={{ width: computeCardWidth(shout.quote) }} aria-hidden={i >= shouts.length || undefined} data-tooltip={shout.name} data-tooltip-sub={shout.company} data-tooltip-color={shout.colorClass} data-person={shout.colorClass} onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}>
                   <p className="shout-quote">{shout.quote}</p>
