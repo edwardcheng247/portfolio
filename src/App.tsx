@@ -49,7 +49,7 @@ function AsciiSpinner() {
   return (
     <span className="ascii-badge">
       <span className="ascii-char">{chars[i]}</span>
-      {' '}Claude-coded <span className="ascii-gray">Palo Alto CA</span><span className="ascii-mobile-heart"> with ♡</span>
+      {' '}Claude-coded <span className="ascii-gray">in Palo Alto CA</span><span className="ascii-mobile-heart"> with ♡</span>
     </span>
   )
 }
