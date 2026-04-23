@@ -71,7 +71,7 @@ body {
 
 .nav-name {
   font-family: var(--sans);
-  font-size: 14px;
+  font-size: 14.25px;
   font-weight: 700;
   color: var(--text);
 }
