@@ -26,7 +26,6 @@ export function DotGrid() {
   const mouseRef = useRef({ x: -9999, y: -9999 })
   const dotsRef = useRef<Dot[]>([])
   const rafRef = useRef<number>(0)
-  const touchEndTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -86,22 +85,6 @@ export function DotGrid() {
     const onMouseLeave = () => {
       if (mouseIdleTimer) clearTimeout(mouseIdleTimer)
       mouseRef.current = { x: -9999, y: -9999 }
-    }
-
-    // ── Mobile: touch handlers ──
-    const onTouchStart = (e: TouchEvent) => {
-      if (touchEndTimerRef.current) clearTimeout(touchEndTimerRef.current)
-      const t = e.touches[0]
-      mouseRef.current = { x: t.clientX, y: t.clientY }
-    }
-    const onTouchMove = (e: TouchEvent) => {
-      const t = e.touches[0]
-      mouseRef.current = { x: t.clientX, y: t.clientY }
-    }
-    const onTouchEnd = () => {
-      touchEndTimerRef.current = setTimeout(() => {
-        mouseRef.current = { x: -9999, y: -9999 }
-      }, 500)
     }
 
     window.addEventListener('mousemove', onMouseMove)
