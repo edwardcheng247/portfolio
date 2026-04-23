@@ -95,6 +95,23 @@ body {
   color: var(--text) !important;
 }
 
+.nav-cv {
+  position: relative;
+}
+
+.nav-cv-arrow {
+  position: absolute;
+  right: calc(100% + 3px);
+  color: #73706e;
+  font-size: 10px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.nav-cv:hover .nav-cv-arrow {
+  opacity: 1;
+}
+
 .nav-dot {
   color: #73706e;
   font-size: 8px;

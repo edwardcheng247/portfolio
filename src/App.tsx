@@ -222,9 +222,9 @@ function Home() {
       <nav className="nav">
         <span className="nav-name">Edward Cheng</span>
         <div className="nav-links">
-          <a href="#about" className={activeSection === 'about' ? 'nav-active' : ''}>{activeSection === 'about' && <span className="nav-dot">• </span>}About</a>
-          <a href="#work" className={activeSection === 'work' ? 'nav-active' : ''}>{activeSection === 'work' && <span className="nav-dot">• </span>}Work</a>
-          <a href="https://resume.edwardcheng.co/" target="_blank" rel="noreferrer">CV</a>
+          <a href="#about" className={activeSection === 'about' ? 'nav-active' : ''}>About</a>
+          <a href="#work" className={activeSection === 'work' ? 'nav-active' : ''}>Work</a>
+          <a href="https://resume.edwardcheng.co/" target="_blank" rel="noreferrer" className="nav-cv"><span className="nav-cv-arrow">↗</span>CV</a>
         </div>
       </nav>
     </header>
