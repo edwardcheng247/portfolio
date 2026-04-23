@@ -1,3 +1,9 @@
+@property --glow-alpha {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
 :root {
   --bg: #1a1a1a;
   --card-bg: #242424;
@@ -175,7 +181,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(220px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px), rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.015) 55%, transparent 80%);
+  background: radial-gradient(220px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px), rgba(255, 255, 255, calc(0.09 * var(--glow-alpha))), rgba(255, 255, 255, calc(0.015 * var(--glow-alpha))) 55%, transparent 80%);
 }
 
 .footer::before {
@@ -186,7 +192,7 @@ body {
   right: 0;
   height: 1px;
   background:
-    radial-gradient(220px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px), rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.015) 55%, transparent 80%),
+    radial-gradient(220px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px), rgba(255, 255, 255, calc(0.09 * var(--glow-alpha))), rgba(255, 255, 255, calc(0.015 * var(--glow-alpha))) 55%, transparent 80%),
     linear-gradient(#2d2d2d, #2d2d2d);
 }
 
@@ -261,8 +267,8 @@ body {
   padding: 1px;
   background: radial-gradient(
     220px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px),
-    rgba(255, 255, 255, 0.13),
-    rgba(255, 255, 255, 0.022) 55%,
+    rgba(255, 255, 255, calc(0.13 * var(--glow-alpha))),
+    rgba(255, 255, 255, calc(0.022 * var(--glow-alpha))) 55%,
     transparent 80%
   );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -450,8 +456,7 @@ body {
 
 .work-link:hover::before {
   background:
-    radial-gradient(220px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px), rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.022) 55%, transparent 80%),
-    linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
+    radial-gradient(220px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px), rgba(255, 255, 255, calc(0.13 * var(--glow-alpha))), rgba(255, 255, 255, calc(0.022 * var(--glow-alpha))) 55%, transparent 80%);
 }
 
 /* ── Footer ── */
@@ -571,18 +576,14 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
     display: none;
   }
 
-  .glass-card::before,
-  .divider::before,
-  .footer::before {
-    opacity: 0;
-    transition: opacity 0.4s ease-out;
+  .glass-card, .glow-line {
+    --glow-alpha: 0;
+    transition: --glow-alpha 0.4s ease-out;
   }
 
-  .glass-card.glow-active::before,
-  .divider.glow-active::before,
-  .footer.glow-active::before {
-    opacity: 1;
-    transition: opacity 0.15s ease-in;
+  .glass-card.glow-active, .glow-line.glow-active {
+    --glow-alpha: 1;
+    transition: --glow-alpha 0.15s ease-in;
   }
 
   .work-tooltip {
