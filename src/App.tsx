@@ -106,6 +106,7 @@ function Home() {
     flipped: false,
   })
   const tooltipRef = useRef<HTMLDivElement>(null)
+  const tooltipDragRef = useRef<{ startX: number; startY: number; origX: number; origY: number } | null>(null)
   const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
   const [row2Flex, setRow2Flex] = useState({ left: 1, right: 1 })
 
@@ -161,6 +162,7 @@ function Home() {
       }
     }
     const handleTouchEnd = (e: TouchEvent) => {
+      if (tooltipDragRef.current) return
       if (!(e.target as Element).closest('[data-tooltip]')) {
         setTooltip(t => ({ ...t, visible: false }))
       }
@@ -184,6 +186,22 @@ function Home() {
       ref={tooltipRef}
       className={`work-tooltip${tooltip.visible ? ' work-tooltip--visible' : ''}${tooltip.flipped ? ' work-tooltip--flipped' : ''}${tooltip.colorClass ? ` work-tooltip--${tooltip.colorClass}` : ''}`}
       style={{ left: tooltip.x, top: tooltip.y }}
+      onTouchStart={(e) => {
+        e.stopPropagation()
+        const t = e.touches[0]
+        tooltipDragRef.current = { startX: t.clientX, startY: t.clientY, origX: tooltip.x, origY: tooltip.y }
+      }}
+      onTouchMove={(e) => {
+        if (!tooltipDragRef.current) return
+        const t = e.touches[0]
+        const dx = t.clientX - tooltipDragRef.current.startX
+        const dy = t.clientY - tooltipDragRef.current.startY
+        setTooltip(prev => ({ ...prev, x: tooltipDragRef.current!.origX + dx, y: tooltipDragRef.current!.origY + dy }))
+      }}
+      onTouchEnd={(e) => {
+        e.stopPropagation()
+        tooltipDragRef.current = null
+      }}
     >
       {tooltip.text}
       {tooltip.subtext && <span className="tooltip-subtext">{tooltip.subtext}</span>}

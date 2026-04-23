@@ -501,6 +501,16 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
     display: none;
   }
 
+  .work-tooltip {
+    pointer-events: auto;
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .work-tooltip:active {
+    cursor: grabbing;
+  }
+
   .work-tooltip,
   .work-tooltip--flipped {
     transform: translate(-50%, calc(-100% - 14px));
