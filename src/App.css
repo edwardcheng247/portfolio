@@ -455,9 +455,10 @@ body {
   z-index: 100;
   pointer-events: none;
   transform: translate(13px, 18px);
-  background: rgba(22, 22, 22, 0.76);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(22, 22, 22, 0.55);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  will-change: backdrop-filter;
   color: #fff;
   font-family: var(--sans);
   font-size: 14px;
