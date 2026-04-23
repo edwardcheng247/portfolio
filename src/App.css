@@ -510,6 +510,7 @@ body.cursor-flipped .work-link {
 
   .past-lives-role {
     font-size: 14px;
+    max-width: 50%;
   }
 
   .past-lives-years {
