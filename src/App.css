@@ -458,7 +458,7 @@ body {
   background: rgba(22, 22, 22, 0.55);
   backdrop-filter: blur(32px);
   -webkit-backdrop-filter: blur(32px);
-  will-change: backdrop-filter;
+  will-change: opacity, transform;
   color: #fff;
   font-family: var(--sans);
   font-size: 14px;
