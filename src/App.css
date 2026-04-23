@@ -503,6 +503,11 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15), 0 8px 32px rgba(0, 0, 0, 0.4);
   }
 
+  .work-tooltip--nick    { box-shadow: inset 0 0 0 1px rgba(201, 112, 112, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
+  .work-tooltip--matt    { box-shadow: inset 0 0 0 1px rgba(96, 184, 122, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
+  .work-tooltip--stephen { box-shadow: inset 0 0 0 1px rgba(104, 136, 204, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
+  .work-tooltip--steve   { box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
+
   .work-tooltip--nick::after,
   .work-tooltip--matt::after,
   .work-tooltip--stephen::after,
@@ -577,7 +582,7 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
   }
 
   .past-lives-years {
-    font-size: 13px;
+    font-size: 12px;
   }
 }
 
