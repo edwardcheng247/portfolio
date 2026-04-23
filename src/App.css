@@ -252,7 +252,7 @@ body {
 }
 
 .section--shouts {
-  padding-bottom: 72px;
+  padding-bottom: 144px;
 }
 
 .section--shouts .section-label {
@@ -698,7 +698,7 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
   }
 
   .shout-card {
-    width: auto;
+    width: auto !important;
   }
 
   /* Hide duplicate cards on mobile */
