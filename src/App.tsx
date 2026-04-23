@@ -77,7 +77,7 @@ const shouts = [
     colorClass: 'matt',
   },
   {
-    quote: '"The glue person for my design team."',
+    quote: '"Edward was the glue person for my design team... he consistently went above and beyond."',
     name: 'Stephen',
     from: 'Design Manager',
     company: 'Mapbox / ex-Google, IDEO',
