@@ -680,7 +680,7 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
   }
 
   .section--shouts {
-    padding-bottom: 64px;
+    padding-bottom: 56px;
   }
 
   .shouts-grid {
