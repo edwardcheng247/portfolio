@@ -297,7 +297,7 @@ function Home() {
               onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
             >
               <picture>
-                <source media="(max-width: 768px)" srcSet="/benny_app_mobile.png" width={1652} height={844} />
+                <source media="(max-width: 768px)" srcSet="/benny_app_mobile.png" />
                 <img
                   src="/benny_app.png"
                   alt="Benny App"
