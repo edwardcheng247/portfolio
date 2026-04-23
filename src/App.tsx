@@ -94,6 +94,7 @@ const shouts = [
 
 function Home() {
   const [navVisible, setNavVisible] = useState(true)
+  const [navScrolled, setNavScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState<'about' | 'work'>('about')
   const lastScrollY = useRef(0)
   const [tooltip, setTooltip] = useState<{ visible: boolean; text: string; subtext?: string; colorClass?: string; x: number; y: number; flipped: boolean }>({
@@ -139,6 +140,7 @@ function Home() {
       } else {
         setNavVisible(true)
       }
+      setNavScrolled(y > 10)
       lastScrollY.current = y
 
       const workEl = document.getElementById('work')
@@ -218,7 +220,7 @@ function Home() {
       {tooltip.text}
       {tooltip.subtext && <span className="tooltip-subtext">{tooltip.subtext}</span>}
     </div>
-    <header className={`nav-wrapper${navVisible ? '' : ' nav-wrapper--hidden'}`}>
+    <header className={`nav-wrapper${navVisible ? '' : ' nav-wrapper--hidden'}${navScrolled ? ' nav-wrapper--scrolled' : ''}`}>
       <nav className="nav">
         <span className="nav-name">Edward Cheng</span>
         <div className="nav-links">

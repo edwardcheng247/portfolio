@@ -45,9 +45,13 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--bg);
+  background: transparent;
   opacity: 1;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.nav-wrapper--scrolled {
+  background: var(--bg);
 }
 
 .nav-wrapper--hidden {
@@ -203,6 +207,10 @@ body {
   align-self: baseline;
 }
 
+.past-lives-period {
+  font-size: 13px;
+}
+
 .past-lives-stage {
   color: #444444;
   padding-left: 2px;
@@ -272,10 +280,11 @@ body {
 
 .shout-from-note {
   font-family: 'Roboto Mono', monospace;
-  font-size: 9px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 12px;
+  font-weight: 400;
+  font-variant: normal;
+  letter-spacing: -0.01em;
+  color: #444444;
 }
 
 .tooltip-subtext {
@@ -668,9 +677,6 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
   }
 
 
-  .shout-from-note {
-    font-size: 10px;
-  }
 }
 
 @media (max-width: 480px) {
