@@ -601,6 +601,13 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
 
 /* ── Shout tooltip colors ── */
 
+.work-tooltip--nick,
+.work-tooltip--matt,
+.work-tooltip--stephen,
+.work-tooltip--steve {
+  background: rgba(22, 22, 22, 0.9);
+}
+
 .work-tooltip--nick { color: #c97070; box-shadow: inset 0 0 0 1px rgba(201, 112, 112, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
 .work-tooltip--matt { color: #60b87a; box-shadow: inset 0 0 0 1px rgba(96, 184, 122, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
 .work-tooltip--stephen { color: #6888cc; box-shadow: inset 0 0 0 1px rgba(104, 136, 204, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
