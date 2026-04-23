@@ -385,10 +385,10 @@ function Home() {
             rel="noreferrer"
             className="footer-link"
           >
-            LinkedIn <span style={{color: '#A3A3A3'}}>↗</span>
+            LinkedIn <span className="footer-arrow">↗</span>
           </a>
           <a href="mailto:edwardcheng247@gmail.com" className="footer-link">
-            Email <span style={{color: '#A3A3A3'}}>↗</span>
+            Email <span className="footer-arrow">↗</span>
           </a>
         </div>
         <div className="footer-right">

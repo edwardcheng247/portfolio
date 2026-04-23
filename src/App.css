@@ -105,9 +105,9 @@ body {
 
 .nav-cv-arrow {
   position: absolute;
-  right: calc(100% + 3px);
-  color: #73706e;
-  font-size: 10px;
+  left: calc(100% + 3px);
+  color: var(--text);
+  font-size: 14px;
   opacity: 0;
   transition: opacity 0.15s;
 }
@@ -454,13 +454,22 @@ body {
 
 .footer-link {
   font-size: 13px;
-  color: var(--text);
+  color: var(--text-muted);
   text-decoration: none;
-  transition: opacity 0.15s;
+  transition: color 0.15s;
 }
 
 .footer-link:hover {
-  opacity: 0.6;
+  color: var(--text);
+}
+
+.footer-arrow {
+  color: var(--text-muted);
+  transition: color 0.15s;
+}
+
+.footer-link:hover .footer-arrow {
+  color: var(--text);
 }
 
 .footer-right {
