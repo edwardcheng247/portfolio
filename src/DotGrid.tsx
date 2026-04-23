@@ -150,15 +150,10 @@ export function DotGrid() {
           const t = 1 - dist / INFLUENCE_R
           const tSmooth = t * t * (3 - 2 * t)
           targetLen = 0.5 + tSmooth * 2.5
-
-          if (!isMobile) {
-            // Desktop: directional pull toward cursor
-            targetAngle = Math.atan2(dy, dx)
-            const pull = tSmooth * MAX_PULL
-            tx = dot.bx + (dx / dist) * pull
-            ty = dot.by + (dy / dist) * pull
-          }
-          // Mobile: no directional pull — dots just grow in place
+          targetAngle = Math.atan2(dy, dx)
+          const pull = tSmooth * MAX_PULL
+          tx = dot.bx + (dx / dist) * pull
+          ty = dot.by + (dy / dist) * pull
         }
 
         const usedLerp = isMobile ? lerp : (targetLen > 0.5 ? LERP : LERP_REVERT)
@@ -172,26 +167,15 @@ export function DotGrid() {
         const gCh = Math.round(255 * (1 - blend) + 140 * blend)
         const bCh = Math.round(255 * (1 - blend))
 
-        if (isMobile) {
-          // Draw as growing circle
-          const radius = 0.5 + influence * 2.5
-          const alpha = 0.04 + influence * 0.18
-          ctx.beginPath()
-          ctx.arc(dot.bx, dot.by, radius, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(255,${gCh},${bCh},${alpha.toFixed(3)})`
-          ctx.fill()
-        } else {
-          // Draw as directional line
-          ctx.lineWidth = 0.6 + influence * 0.15
-          const alpha = 0.04 + (dot.len / 3) * 0.1
-          const cos = Math.cos(dot.angle)
-          const sin = Math.sin(dot.angle)
-          ctx.beginPath()
-          ctx.moveTo(dot.cx - cos * dot.len, dot.cy - sin * dot.len)
-          ctx.lineTo(dot.cx + cos * dot.len, dot.cy + sin * dot.len)
-          ctx.strokeStyle = `rgba(255,${gCh},${bCh},${alpha.toFixed(3)})`
-          ctx.stroke()
-        }
+        ctx.lineWidth = 0.6 + influence * 0.15
+        const alpha = 0.04 + (dot.len / 3) * 0.1
+        const cos = Math.cos(dot.angle)
+        const sin = Math.sin(dot.angle)
+        ctx.beginPath()
+        ctx.moveTo(dot.cx - cos * dot.len, dot.cy - sin * dot.len)
+        ctx.lineTo(dot.cx + cos * dot.len, dot.cy + sin * dot.len)
+        ctx.strokeStyle = `rgba(255,${gCh},${bCh},${alpha.toFixed(3)})`
+        ctx.stroke()
       }
 
       ctx.restore()
