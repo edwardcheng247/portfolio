@@ -18,10 +18,14 @@
 }
 
 .dot-grid-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 0;
   max-width: none;
   display: block;
-  width: auto;
-  height: auto;
+  will-change: transform;
 }
 
 body {
