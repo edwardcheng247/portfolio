@@ -165,21 +165,43 @@ function Home() {
         cardBoundsRef.current = { yMin: cardRect.top, yMax: cardRect.bottom }
         setTooltip({ visible: true, text: workLink.dataset.tooltip!, subtext: workLink.dataset.tooltipSub, colorClass: workLink.dataset.tooltipColor, x, y: touch.clientY, flipped: false })
       }
+      // Glow effect on touch
+      const touch = e.touches[0]
+      document.querySelectorAll<HTMLElement>('.glass-card, .glow-line').forEach(el => {
+        const rect = el.getBoundingClientRect()
+        el.style.setProperty('--mouse-x', `${touch.clientX - rect.left}px`)
+        el.style.setProperty('--mouse-y', `${touch.clientY - rect.top}px`)
+        el.classList.add('glow-active')
+      })
+    }
+    const handleTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0]
+      document.querySelectorAll<HTMLElement>('.glass-card, .glow-line').forEach(el => {
+        const rect = el.getBoundingClientRect()
+        el.style.setProperty('--mouse-x', `${touch.clientX - rect.left}px`)
+        el.style.setProperty('--mouse-y', `${touch.clientY - rect.top}px`)
+      })
     }
     const handleTouchEnd = (e: TouchEvent) => {
       if (tooltipDragRef.current) return
       if (!(e.target as Element).closest('[data-tooltip]')) {
         setTooltip(t => ({ ...t, visible: false }))
       }
+      // Fade out glow
+      document.querySelectorAll<HTMLElement>('.glass-card, .glow-line').forEach(el => {
+        el.classList.remove('glow-active')
+      })
     }
     window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('scroll', handleScroll, { passive: true })
     window.addEventListener('touchstart', handleTouchStart, { passive: true })
+    window.addEventListener('touchmove', handleTouchMove, { passive: true })
     window.addEventListener('touchend', handleTouchEnd, { passive: true })
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('touchstart', handleTouchStart)
+      window.removeEventListener('touchmove', handleTouchMove)
       window.removeEventListener('touchend', handleTouchEnd)
     }
   }, [])
