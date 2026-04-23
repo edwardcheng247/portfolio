@@ -106,7 +106,8 @@ function Home() {
     flipped: false,
   })
   const tooltipRef = useRef<HTMLDivElement>(null)
-  const tooltipDragRef = useRef<{ startX: number; startY: number; origX: number; origY: number } | null>(null)
+  const tooltipDragRef = useRef<{ startX: number; startY: number; origX: number; origY: number; yMin: number; yMax: number } | null>(null)
+  const cardBoundsRef = useRef<{ yMin: number; yMax: number }>({ yMin: 0, yMax: window.innerHeight })
   const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
   const [row2Flex, setRow2Flex] = useState({ left: 1, right: 1 })
 
@@ -153,11 +154,13 @@ function Home() {
     }
     const handleTouchStart = (e: TouchEvent) => {
       const workLink = (e.target as Element).closest<HTMLElement>('[data-tooltip]')
-      if (workLink) {
+      if (workLink && !workLink.dataset.person) {
         const touch = e.touches[0]
         const tooltipWidth = tooltipRef.current ? tooltipRef.current.offsetWidth : 160
         const margin = 12
         const x = Math.max(tooltipWidth / 2 + margin, Math.min(window.innerWidth - tooltipWidth / 2 - margin, touch.clientX))
+        const cardRect = workLink.getBoundingClientRect()
+        cardBoundsRef.current = { yMin: cardRect.top, yMax: cardRect.bottom }
         setTooltip({ visible: true, text: workLink.dataset.tooltip!, subtext: workLink.dataset.tooltipSub, colorClass: workLink.dataset.tooltipColor, x, y: touch.clientY, flipped: false })
       }
     }
@@ -189,7 +192,7 @@ function Home() {
       onTouchStart={(e) => {
         e.stopPropagation()
         const t = e.touches[0]
-        tooltipDragRef.current = { startX: t.clientX, startY: t.clientY, origX: tooltip.x, origY: tooltip.y }
+        tooltipDragRef.current = { startX: t.clientX, startY: t.clientY, origX: tooltip.x, origY: tooltip.y, yMin: cardBoundsRef.current.yMin, yMax: cardBoundsRef.current.yMax }
       }}
       onTouchMove={(e) => {
         const drag = tooltipDragRef.current
@@ -197,7 +200,8 @@ function Home() {
         const t = e.touches[0]
         const dx = t.clientX - drag.startX
         const dy = t.clientY - drag.startY
-        setTooltip(prev => ({ ...prev, x: drag.origX + dx, y: drag.origY + dy }))
+        const newY = Math.max(drag.yMin, Math.min(drag.yMax, drag.origY + dy))
+        setTooltip(prev => ({ ...prev, x: drag.origX + dx, y: newY }))
       }}
       onTouchEnd={(e) => {
         e.stopPropagation()
