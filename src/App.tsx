@@ -119,9 +119,9 @@ function Home() {
         el.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`)
       })
       const workLink = (e.target as Element).closest<HTMLElement>('[data-tooltip]')
-      if (workLink) {
+      const isMobile = window.innerWidth <= 768
+      if (workLink && !(isMobile && workLink.dataset.person)) {
         const tooltipWidth = tooltipRef.current ? tooltipRef.current.offsetWidth : 160
-        const isMobile = window.innerWidth <= 768
         let x = e.clientX
         if (isMobile) {
           const margin = 12
@@ -192,7 +192,14 @@ function Home() {
       onTouchStart={(e) => {
         e.stopPropagation()
         const t = e.touches[0]
-        tooltipDragRef.current = { startX: t.clientX, startY: t.clientY, origX: tooltip.x, origY: tooltip.y, yMin: cardBoundsRef.current.yMin, yMax: cardBoundsRef.current.yMax }
+        const tooltipH = tooltipRef.current?.offsetHeight ?? 40
+        const gap = 14
+        tooltipDragRef.current = {
+          startX: t.clientX, startY: t.clientY,
+          origX: tooltip.x, origY: tooltip.y,
+          yMin: cardBoundsRef.current.yMin + tooltipH + gap,
+          yMax: cardBoundsRef.current.yMax + gap,
+        }
       }}
       onTouchMove={(e) => {
         const drag = tooltipDragRef.current
