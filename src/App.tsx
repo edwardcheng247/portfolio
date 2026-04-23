@@ -55,28 +55,40 @@ function AsciiSpinner() {
 }
 
 const pastLives = [
-  { role: 'Founding Designer at Benny', years: 'Seed\u2009•\u20092024\u2009–\u20092026' },
-  { role: 'Product Designer at UrbanFootprint', years: 'Series B\u2009•\u20092019\u2009–\u20092024' },
-  { role: 'Visual Designer at FactoryFour', years: 'Series A\u2009•\u20092018\u2009–\u20092019' },
+  { role: 'Founding Designer at Benny', years: 'SEED\u2009•\u20092024\u2009–\u20092026' },
+  { role: 'Product Designer at UrbanFootprint', years: 'SERIES B\u2009•\u20092019\u2009–\u20092024' },
+  { role: 'Visual Designer at FactoryFour', years: 'SERIES A\u2009•\u20092018\u2009–\u20092019' },
 ]
 
 const shouts = [
   {
     quote: '"He has an exceptional ability to make anything beautiful, and he does it fast."',
+    name: 'Nick',
     from: 'VP of Product',
+    company: 'UrbanFootprint',
+    colorClass: 'nick',
   },
   {
     quote:
       '"Thrives within existing design systems, and flourishes when given the opportunity to create something new."',
+    name: 'Matt',
     from: 'Senior Software Engineer',
+    company: 'UrbanFootprint',
+    colorClass: 'matt',
   },
   {
     quote: '"The glue person for my design team."',
+    name: 'Stephen',
     from: 'Design Manager',
+    company: 'Mapbox, ex-IDEO',
+    colorClass: 'stephen',
   },
   {
     quote: '"If we don\'t hire Edward, I\'m quitting."',
+    name: 'Steve',
     from: 'CTO (allegedly)',
+    company: 'Benny, ex-Cash App, Uber, Brex',
+    colorClass: 'steve',
   },
 ]
 
@@ -84,9 +96,11 @@ function Home() {
   const [navVisible, setNavVisible] = useState(true)
   const [activeSection, setActiveSection] = useState<'about' | 'work'>('about')
   const lastScrollY = useRef(0)
-  const [tooltip, setTooltip] = useState<{ visible: boolean; text: string; x: number; y: number; flipped: boolean }>({
+  const [tooltip, setTooltip] = useState<{ visible: boolean; text: string; subtext?: string; colorClass?: string; x: number; y: number; flipped: boolean }>({
     visible: false,
     text: '',
+    subtext: undefined,
+    colorClass: undefined,
     x: 0,
     y: 0,
     flipped: false,
@@ -113,7 +127,7 @@ function Home() {
         }
         const flipped = !isMobile && e.clientX + 13 + tooltipWidth > window.innerWidth
         document.body.classList.toggle('cursor-flipped', flipped)
-        setTooltip({ visible: true, text: workLink.dataset.tooltip!, x, y: e.clientY, flipped })
+        setTooltip({ visible: true, text: workLink.dataset.tooltip!, subtext: workLink.dataset.tooltipSub, colorClass: workLink.dataset.tooltipColor, x, y: e.clientY, flipped })
       }
     }
     const handleScroll = () => {
@@ -136,6 +150,16 @@ function Home() {
         setTooltip(t => ({ ...t, visible: false }))
       }
     }
+    const handleTouchStart = (e: TouchEvent) => {
+      const workLink = (e.target as Element).closest<HTMLElement>('[data-tooltip]')
+      if (workLink) {
+        const touch = e.touches[0]
+        const tooltipWidth = tooltipRef.current ? tooltipRef.current.offsetWidth : 160
+        const margin = 12
+        const x = Math.max(tooltipWidth / 2 + margin, Math.min(window.innerWidth - tooltipWidth / 2 - margin, touch.clientX))
+        setTooltip({ visible: true, text: workLink.dataset.tooltip!, subtext: workLink.dataset.tooltipSub, colorClass: workLink.dataset.tooltipColor, x, y: touch.clientY, flipped: false })
+      }
+    }
     const handleTouchEnd = (e: TouchEvent) => {
       if (!(e.target as Element).closest('[data-tooltip]')) {
         setTooltip(t => ({ ...t, visible: false }))
@@ -143,10 +167,12 @@ function Home() {
     }
     window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('touchstart', handleTouchStart, { passive: true })
     window.addEventListener('touchend', handleTouchEnd, { passive: true })
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('touchend', handleTouchEnd)
     }
   }, [])
@@ -156,10 +182,11 @@ function Home() {
     <DotGrid />
 <div
       ref={tooltipRef}
-      className={`work-tooltip${tooltip.visible ? ' work-tooltip--visible' : ''}${tooltip.flipped ? ' work-tooltip--flipped' : ''}`}
+      className={`work-tooltip${tooltip.visible ? ' work-tooltip--visible' : ''}${tooltip.flipped ? ' work-tooltip--flipped' : ''}${tooltip.colorClass ? ` work-tooltip--${tooltip.colorClass}` : ''}`}
       style={{ left: tooltip.x, top: tooltip.y }}
     >
       {tooltip.text}
+      {tooltip.subtext && <span className="tooltip-subtext">{tooltip.subtext}</span>}
     </div>
     <header className={`nav-wrapper${navVisible ? '' : ' nav-wrapper--hidden'}`}>
       <nav className="nav">
@@ -192,12 +219,10 @@ function Home() {
           <p className="section-label">Shouts</p>
           <div className="shouts-grid">
             {shouts.map((shout) => (
-              <div key={shout.from} className="shout-card glass-card">
+              <div key={shout.from} className="shout-card glass-card" data-tooltip={shout.name} data-tooltip-sub={shout.company} data-tooltip-color={shout.colorClass} data-person={shout.colorClass} onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}>
                 <p className="shout-quote">{shout.quote}</p>
                 <p className="shout-from">
-                  {shout.from.includes('(allegedly)') ? (
-                    <>{shout.from.replace(' (allegedly)', '')} <span className="shout-from-note">(allegedly)</span></>
-                  ) : shout.from}
+                  {shout.from.includes('(allegedly)') ? <>{shout.from.replace(' (allegedly)', '')} <span className="shout-from-note">(allegedly)</span></> : shout.from}
                 </p>
               </div>
             ))}
