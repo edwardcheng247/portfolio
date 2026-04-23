@@ -55,9 +55,9 @@ function AsciiSpinner() {
 }
 
 const pastLives = [
-  { role: 'Founding Designer at Benny', years: 'SEED\u2009•\u20092024\u2009–\u20092026' },
-  { role: 'Product Designer at UrbanFootprint', years: 'SERIES B\u2009•\u20092019\u2009–\u20092024' },
-  { role: 'Visual Designer at FactoryFour', years: 'SERIES A\u2009•\u20092018\u2009–\u20092019' },
+  { role: 'Founding Designer at Benny', stage: '[SEED]', period: '2024\u2009–\u20092026' },
+  { role: 'Product Designer at UrbanFootprint', stage: '[SERIES B]', period: '2019\u2009–\u20092024' },
+  { role: 'Visual Designer at FactoryFour', stage: '[SERIES A]', period: '2018\u2009–\u20092019' },
 ]
 
 const shouts = [
@@ -86,7 +86,7 @@ const shouts = [
   {
     quote: '"If we don\'t hire Edward, I\'m quitting."',
     name: 'Steve',
-    from: 'CTO (allegedly)',
+    from: 'CTO [allegedly]',
     company: 'Benny / ex-CashApp, Uber, Brex',
     colorClass: 'steve',
   },
@@ -237,7 +237,11 @@ function Home() {
             {pastLives.map((item) => (
               <div key={item.role} className="past-lives-row">
                 <span className="past-lives-role">{item.role}</span>
-                <span className="past-lives-years">{item.years}</span>
+                <span className="past-lives-years">
+                  <span className="past-lives-stage">{item.stage}</span>
+                  <span className="past-lives-bullet">{'\u2009•\u2009'}</span>
+                  <span className="past-lives-period">{item.period}</span>
+                </span>
               </div>
             ))}
           </div>
@@ -252,7 +256,7 @@ function Home() {
               <div key={shout.from} className="shout-card glass-card" data-tooltip={shout.name} data-tooltip-sub={shout.company} data-tooltip-color={shout.colorClass} data-person={shout.colorClass} onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}>
                 <p className="shout-quote">{shout.quote}</p>
                 <p className="shout-from">
-                  {shout.from.includes('(allegedly)') ? <>{shout.from.replace(' (allegedly)', '')}{' \u2009'}<span className="shout-from-note">(allegedly)</span></> : shout.from}
+                  {shout.from.includes('[allegedly]') ? <>{shout.from.replace(' [allegedly]', '')}{' \u2009'}<span className="shout-from-note">[allegedly]</span></> : shout.from}
                 </p>
               </div>
             ))}
