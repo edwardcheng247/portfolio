@@ -407,6 +407,9 @@ body {
   border-radius: 8px;
   opacity: 0;
   transition: opacity 0.8s ease;
+  user-drag: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 .work-image--loaded {
