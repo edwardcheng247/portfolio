@@ -646,13 +646,14 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
     display: flex;
     flex-direction: row;
     align-items: baseline;
-    gap: 8px;
+    gap: 14px;
   }
 
   .past-lives-period,
   .past-lives-stage {
     padding: 0;
     align-self: auto;
+    white-space: nowrap;
   }
 
   .past-lives-period {
