@@ -80,7 +80,7 @@ const shouts = [
     quote: '"The glue person for my design team."',
     name: 'Stephen',
     from: 'Design Manager',
-    company: 'Mapbox / ex-IDEO',
+    company: 'Mapbox / ex-Google, IDEO',
     colorClass: 'stephen',
   },
   {
