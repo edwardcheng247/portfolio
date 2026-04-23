@@ -3,7 +3,8 @@ import { useEffect, useRef } from 'react'
 const SPACING = 18
 const INFLUENCE_R = 140
 const MAX_PULL = 6
-const LERP = 0.05
+const LERP_MOUSE = 0.05
+const LERP_TOUCH = 0.18
 
 interface Dot {
   bx: number
@@ -22,8 +23,10 @@ function lerpAngle(a: number, b: number, t: number): number {
 export function DotGrid() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const mouseRef = useRef({ x: -9999, y: -9999 })
+  const lerpRef = useRef(LERP_MOUSE)
   const dotsRef = useRef<Dot[]>([])
   const rafRef = useRef<number>(0)
+  const touchEndTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -70,13 +73,34 @@ export function DotGrid() {
     ro.observe(document.body)
 
     const onMouseMove = (e: MouseEvent) => {
+      lerpRef.current = LERP_MOUSE
       mouseRef.current = { x: e.clientX, y: e.clientY }
     }
     const onMouseLeave = () => {
       mouseRef.current = { x: -9999, y: -9999 }
     }
+    const onTouchStart = (e: TouchEvent) => {
+      if (touchEndTimerRef.current) clearTimeout(touchEndTimerRef.current)
+      lerpRef.current = LERP_TOUCH
+      const t = e.touches[0]
+      mouseRef.current = { x: t.clientX, y: t.clientY }
+    }
+    const onTouchMove = (e: TouchEvent) => {
+      lerpRef.current = LERP_TOUCH
+      const t = e.touches[0]
+      mouseRef.current = { x: t.clientX, y: t.clientY }
+    }
+    const onTouchEnd = () => {
+      lerpRef.current = LERP_MOUSE
+      touchEndTimerRef.current = setTimeout(() => {
+        mouseRef.current = { x: -9999, y: -9999 }
+      }, 600)
+    }
     window.addEventListener('mousemove', onMouseMove)
     document.addEventListener('mouseleave', onMouseLeave)
+    window.addEventListener('touchstart', onTouchStart, { passive: true })
+    window.addEventListener('touchmove', onTouchMove, { passive: true })
+    window.addEventListener('touchend', onTouchEnd, { passive: true })
 
     const draw = () => {
       const dpr = window.devicePixelRatio || 1
@@ -119,10 +143,11 @@ export function DotGrid() {
           ty = dot.by + (dy / dist) * pull
         }
 
-        dot.cx += (tx - dot.cx) * LERP
-        dot.cy += (ty - dot.cy) * LERP
-        dot.len += (targetLen - dot.len) * LERP
-        dot.angle = lerpAngle(dot.angle, targetAngle, LERP)
+        const lerp = lerpRef.current
+        dot.cx += (tx - dot.cx) * lerp
+        dot.cy += (ty - dot.cy) * lerp
+        dot.len += (targetLen - dot.len) * lerp
+        dot.angle = lerpAngle(dot.angle, targetAngle, lerp)
 
         const cos = Math.cos(dot.angle)
         const sin = Math.sin(dot.angle)
@@ -153,6 +178,10 @@ export function DotGrid() {
       window.removeEventListener('resize', onResize)
       window.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('mouseleave', onMouseLeave)
+      window.removeEventListener('touchstart', onTouchStart)
+      window.removeEventListener('touchmove', onTouchMove)
+      window.removeEventListener('touchend', onTouchEnd)
+      if (touchEndTimerRef.current) clearTimeout(touchEndTimerRef.current)
       window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`).removeEventListener('change', onDprChange)
       ro.disconnect()
       cancelAnimationFrame(rafRef.current)
