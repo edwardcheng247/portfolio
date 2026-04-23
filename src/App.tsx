@@ -80,14 +80,14 @@ const shouts = [
     quote: '"The glue person for my design team."',
     name: 'Stephen',
     from: 'Design Manager',
-    company: 'Mapbox, ex-IDEO',
+    company: 'Mapbox / ex-IDEO',
     colorClass: 'stephen',
   },
   {
     quote: '"If we don\'t hire Edward, I\'m quitting."',
     name: 'Steve',
     from: 'CTO (allegedly)',
-    company: 'Benny, ex-Cash App, Uber, Brex',
+    company: 'Benny / ex-CashApp, Uber, Brex',
     colorClass: 'steve',
   },
 ]
