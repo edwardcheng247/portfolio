@@ -60,6 +60,16 @@ const pastLives = [
   { role: 'Visual Designer at FactoryFour', stage: '[SERIES A]', period: '2018\u2009–\u20092019' },
 ]
 
+// Computes a card width so that each quote lands on roughly the same number of lines.
+// Targets 3 lines for the serif 14px text; clamped to a sensible range.
+function computeCardWidth(quote: string): number {
+  const AVG_CHAR_PX = 7.5   // approx char width for Messina Serif 14px
+  const TARGET_LINES = 3
+  const PADDING_H = 56      // 28px left + 28px right
+  const textWidth = (quote.length * AVG_CHAR_PX) / TARGET_LINES
+  return Math.round(Math.max(220, Math.min(380, textWidth + PADDING_H)))
+}
+
 const shouts = [
   {
     quote: '"He has an exceptional ability to make anything beautiful, and he does it fast."',
@@ -273,22 +283,6 @@ function Home() {
           </div>
         </section>
 
-        <div className="divider glow-line" role="separator" />
-
-        <section className="section">
-          <p className="section-label">Shouts</p>
-          <div className="shouts-grid">
-            {shouts.map((shout) => (
-              <div key={shout.from} className="shout-card glass-card" data-tooltip={shout.name} data-tooltip-sub={shout.company} data-tooltip-color={shout.colorClass} data-person={shout.colorClass} onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}>
-                <p className="shout-quote">{shout.quote}</p>
-                <p className="shout-from">
-                  {shout.from.includes('[allegedly]') ? <>{shout.from.replace(' [allegedly]', '')}<br /><span className="shout-from-note">[allegedly]</span></> : shout.from}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
         <section className="section section--work" id="work">
           <p className="section-label">Selected work</p>
           <div className="work-grid">
@@ -396,6 +390,24 @@ function Home() {
                   }}
                 />
               </picture>
+            </div>
+          </div>
+        </section>
+
+        <div className="divider glow-line" role="separator" />
+
+        <section className="section section--shouts">
+          <p className="section-label">Shouts</p>
+          <div className="shouts-carousel">
+            <div className="shouts-track">
+              {[...shouts, ...shouts].map((shout, i) => (
+                <div key={`${shout.from}-${i}`} className="shout-card glass-card" style={{ width: computeCardWidth(shout.quote) }} aria-hidden={i >= shouts.length || undefined} data-tooltip={shout.name} data-tooltip-sub={shout.company} data-tooltip-color={shout.colorClass} data-person={shout.colorClass} onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}>
+                  <p className="shout-quote">{shout.quote}</p>
+                  <p className="shout-from">
+                    {shout.from.includes('[allegedly]') ? <>{shout.from.replace(' [allegedly]', '')}<br /><span className="shout-from-note">[allegedly]</span></> : shout.from}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </section>

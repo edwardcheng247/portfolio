@@ -155,6 +155,7 @@ body {
 }
 
 .section--work {
+  padding-top: 24px;
   padding-bottom: 96px;
 }
 
@@ -235,7 +236,7 @@ body {
 }
 
 .past-lives-stage {
-  color: #444444;
+  color: #525252;
   padding-left: 2px;
 }
 
@@ -244,6 +245,39 @@ body {
 }
 
 /* ── Shouts ── */
+
+@keyframes shouts-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+.section--shouts {
+  padding-bottom: 72px;
+}
+
+.section--shouts .section-label {
+  margin-bottom: 28px;
+}
+
+.shouts-carousel {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+}
+
+.shouts-carousel:hover .shouts-track {
+  animation-play-state: paused;
+}
+
+.shouts-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: shouts-scroll 80s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
 
 .shouts-grid {
   display: grid;
@@ -282,15 +316,18 @@ body {
   padding: 24px 28px 28px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 16px;
+  flex-shrink: 0;
+  border-radius: 32px;
 }
 
 .shout-quote {
   font-family: var(--serif);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   color: var(--text);
   line-height: 1.65;
+  flex: 1;
 }
 
 .shout-from {
@@ -307,7 +344,7 @@ body {
   font-weight: 500;
   font-variant: normal;
   letter-spacing: -0.04em;
-  color: #4e4e4e;
+  color: #5a5a5a;
 }
 
 .tooltip-subtext {
@@ -644,6 +681,29 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
 
   .shouts-grid {
     grid-template-columns: 1fr;
+  }
+
+  .shouts-carousel {
+    mask-image: none;
+    -webkit-mask-image: none;
+    overflow: visible;
+  }
+
+  .shouts-track {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: auto;
+    animation: none;
+  }
+
+  .shout-card {
+    width: auto;
+  }
+
+  /* Hide duplicate cards on mobile */
+  .shouts-track > :nth-child(n+5) {
+    display: none;
   }
 
   .work-grid {
