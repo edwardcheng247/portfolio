@@ -1,5 +1,45 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Messina Sans';
+  src: url('/fonts/Messina/MessinaSans_Family/VariableFont/MessinaSansNormalUprightVariable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Messina Sans';
+  src: url('/fonts/Messina/MessinaSans_Family/VariableFont/MessinaSansNormalItalicVariable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Messina Serif';
+  src: url('/fonts/Messina/MessinaSerif_Family/VariableFont/MessinaSerifVariableUpright.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Messina Serif';
+  src: url('/fonts/Messina/MessinaSerif_Family/VariableFont/MessinaSerifVariableItalic.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Messina Sans Mono';
+  src: url('/fonts/Messina/MessinaSansMono_Family/VariableFont/MessinaSansMonoVariable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 #root {
   height: 100%;
 }
