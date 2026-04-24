@@ -330,7 +330,7 @@ body {
 
 .shout-quote {
   font-family: var(--serif);
-  font-size: 14px;
+  font-size: 14.25px;
   font-weight: 400;
   color: var(--text);
   line-height: 1.65;
@@ -825,5 +825,23 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
 
   .ascii-mobile-heart {
     display: inline;
+  }
+}
+
+@media (min-width: 769px) {
+  .nav-links {
+    gap: 36px;
+  }
+
+  .past-lives {
+    column-gap: 44px;
+  }
+
+  .footer-links {
+    gap: 28px;
+  }
+
+  .footer-right {
+    gap: 24px;
   }
 }
