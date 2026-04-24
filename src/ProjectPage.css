@@ -203,8 +203,8 @@
   .project-header {
     grid-template-columns: 1fr;
     gap: 0;
-    margin-bottom: 72px;
-    padding-bottom: 20px;
+    margin-bottom: 64px;
+    padding-bottom: 12px;
   }
 
   .project-tags {
