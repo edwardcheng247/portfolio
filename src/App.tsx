@@ -49,7 +49,7 @@ function AsciiSpinner() {
   return (
     <span className="ascii-badge">
       <span className="ascii-char">{chars[i]}</span>
-      {' '}Claude-coded <span className="ascii-gray">in Palo Alto CA</span><span className="ascii-mobile-heart"> with ♡</span>
+      {' '}Claude-coded<span className="ascii-gray"> in Palo Alto CA</span><span className="ascii-mobile-heart"> with ♡</span>
     </span>
   )
 }
@@ -119,7 +119,7 @@ function Home() {
   const tooltipRef = useRef<HTMLDivElement>(null)
   const tooltipDragRef = useRef<{ startX: number; startY: number; origX: number; origY: number; yMin: number; yMax: number } | null>(null)
   const cardBoundsRef = useRef<{ yMin: number; yMax: number }>({ yMin: 0, yMax: window.innerHeight })
-  const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
+const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
   const [row2Flex, setRow2Flex] = useState({ left: 1, right: 1 })
   const shoutsTrackRef = useRef<HTMLDivElement>(null)
   const shoutsCarouselRef = useRef<HTMLDivElement>(null)
