@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
 
-const SPACING = 18
-const INFLUENCE_R = 140
-const MAX_PULL = 8
-const LERP = 0.05
-const LERP_REVERT = 0.025
+const SPACING = 12
+const INFLUENCE_R = 90
+const MAX_PULL = 5
+const LERP = 0.035
+const LERP_REVERT = 0.018
 const LERP_TOUCH = 0.28
 
 interface Dot {
@@ -127,10 +127,10 @@ export function DotGrid() {
           const t = 1 - dist / INFLUENCE_R
           const tSmooth = t * t * (3 - 2 * t)
           targetLen = 0.5 + tSmooth * 2.5
-          targetAngle = Math.atan2(dy, dx)
+          targetAngle = Math.atan2(-dy, -dx)
           const pull = tSmooth * MAX_PULL
-          tx = dot.bx + (dx / dist) * pull
-          ty = dot.by + (dy / dist) * pull
+          tx = dot.bx - (dx / dist) * pull
+          ty = dot.by - (dy / dist) * pull
         }
 
         const usedLerp = isMobile ? lerp : (targetLen > 0.5 ? LERP : LERP_REVERT)
