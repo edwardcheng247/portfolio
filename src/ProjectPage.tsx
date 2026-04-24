@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { DotGrid } from './DotGrid'
+import { LiveClock, AsciiSpinner } from './App'
 import { getProject } from './projects'
 import './ProjectPage.css'
 
 export function ProjectPage({ slug }: { slug: string }) {
   const project = getProject(slug)
   const [navVisible, setNavVisible] = useState(true)
+  const [navScrolled, setNavScrolled] = useState(false)
   const lastScrollY = useRef(0)
 
   useEffect(() => {
@@ -15,6 +17,7 @@ export function ProjectPage({ slug }: { slug: string }) {
       const y = window.scrollY
       if (y > lastScrollY.current && y > 60) setNavVisible(false)
       else setNavVisible(true)
+      setNavScrolled(y > 10)
       lastScrollY.current = y
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -28,18 +31,20 @@ export function ProjectPage({ slug }: { slug: string }) {
   return (
     <>
       <DotGrid />
-      <header className={`nav-wrapper${navVisible ? '' : ' nav-wrapper--hidden'}`}>
+      <header className={`nav-wrapper${navVisible ? '' : ' nav-wrapper--hidden'}${navScrolled ? ' nav-wrapper--scrolled' : ''}`}>
         <nav className="nav">
           <a href="#" className="nav-name nav-back">
-            ← Edward Cheng
+            <span style={{ position: 'relative', top: '-0.5px' }}>←</span>{'\u2002'}Back
           </a>
           <div className="nav-links">
-            <a href="#work">Work</a>
             <a href="#about">About</a>
+            <a href="#work">Work</a>
+            <a href="https://resume.edwardcheng.co/" target="_blank" rel="noreferrer" className="nav-cv"><span className="nav-cv-arrow">↗</span>CV</a>
           </div>
         </nav>
       </header>
 
+      <div className="site" style={{ minHeight: 'unset' }}>
       <div className="project-page">
         <div className="project-hero">
           <img src={project.heroImage} alt={project.title} className="project-hero-img" />
@@ -75,37 +80,58 @@ export function ProjectPage({ slug }: { slug: string }) {
               <p key={i} className="project-body">{block.value}</p>
             ))}
           </div>
+        </div>
 
-          {project.sections.map((section, si) => (
-            <div key={si} className="project-section">
+        {project.sections.map((section, si) => (
+          <div key={si} className="project-section-group">
+            <div className="project-content">
               <p className="project-section-label">{section.label}</p>
               {section.heading && (
                 <h2 className="project-section-heading">{section.heading}</h2>
               )}
-              {section.blocks.map((block, bi) => {
-                if (block.type === 'text') {
-                  return <p key={bi} className="project-body">{block.value}</p>
-                }
-                if (block.type === 'image') {
-                  return (
-                    <figure key={bi} className="project-figure">
-                      <img src={block.src} alt={block.alt} className="project-figure-img" />
-                      {block.caption && (
-                        <figcaption className="project-caption">{block.caption}</figcaption>
-                      )}
-                    </figure>
-                  )
-                }
-                return null
-              })}
             </div>
-          ))}
-        </div>
+            {section.blocks.map((block, bi) => {
+              if (block.type === 'text') {
+                return (
+                  <div key={bi} className="project-content">
+                    <p className="project-body">{block.value}</p>
+                  </div>
+                )
+              }
+              if (block.type === 'image') {
+                return (
+                  <figure key={bi} className="project-figure">
+                    <img src={block.src} alt={block.alt} className="project-figure-img" />
+                    {block.caption && (
+                      <figcaption className="project-caption">{block.caption}</figcaption>
+                    )}
+                  </figure>
+                )
+              }
+              return null
+            })}
+          </div>
+        ))}
 
         <nav className="project-footer-nav">
           <a href="#" className="project-nav-link">← Home</a>
           <a href="#" className="project-nav-link">Next project →</a>
         </nav>
+      </div>
+
+      <footer className="footer glow-line">
+        <div className="footer-links">
+          <a href="https://linkedin.com/in/imedwardcheng" target="_blank" rel="noreferrer" className="footer-link">
+            LinkedIn <span className="footer-arrow">↗</span>
+          </a>
+          <a href="mailto:edwardcheng247@gmail.com" className="footer-link">
+            Email <span className="footer-arrow">↗</span>
+          </a>
+        </div>
+        <div className="footer-right">
+          <AsciiSpinner /> <LiveClock />
+        </div>
+      </footer>
       </div>
     </>
   )

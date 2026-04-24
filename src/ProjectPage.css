@@ -108,6 +108,10 @@
   margin-bottom: 72px;
 }
 
+.project-section-group {
+  margin-bottom: 72px;
+}
+
 .project-section-label {
   font-family: 'Messina Sans Mono', 'Roboto Mono', monospace;
   font-size: 13px;
@@ -167,8 +171,8 @@
 .project-footer-nav {
   display: flex;
   justify-content: space-between;
-  padding-top: 48px;
   border-top: 1px solid var(--border);
+  padding-top: 20px;
   margin-top: 80px;
   max-width: 680px;
 }
@@ -198,6 +202,13 @@
 
   .project-hero {
     margin-bottom: 32px;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    box-sizing: border-box;
+    padding: 0 24px;
   }
 
   .project-header {
@@ -226,7 +237,43 @@
     padding: 0 20px 80px;
   }
 
+  .project-hero {
+    padding: 0 20px;
+  }
+
   .project-figure {
     padding: 0 20px;
+  }
+}
+
+@media (min-width: 769px) {
+  .project-content {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .project-footer-nav {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: none;
+    padding-top: 20px;
+  }
+
+  .project-header {
+    grid-template-columns: 1fr 180px;
+  }
+
+  .project-figure {
+    width: auto;
+    position: static;
+    left: auto;
+    right: auto;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+  }
+
+  .project-caption {
+    max-width: 100%;
   }
 }
