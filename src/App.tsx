@@ -391,8 +391,8 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
       <nav className="nav">
         <span className="nav-name">Edward Cheng</span>
         <div className="nav-links">
-          <a href="#about" className={activeSection === 'about' ? 'nav-active' : ''}>About</a>
-          <a href="#work" className={activeSection === 'work' ? 'nav-active' : ''}>Work</a>
+          <a href="#about" className={activeSection === 'about' ? 'nav-active' : ''} onClick={e => { e.preventDefault(); document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }) }}>About</a>
+          <a href="#work" className={activeSection === 'work' ? 'nav-active' : ''} onClick={e => { e.preventDefault(); document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' }) }}>Work</a>
           <a href="https://resume.edwardcheng.co/" target="_blank" rel="noreferrer" className="nav-cv"><span className="nav-cv-arrow">↗</span>CV</a>
         </div>
       </nav>
