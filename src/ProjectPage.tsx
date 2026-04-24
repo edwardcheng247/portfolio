@@ -49,6 +49,13 @@ export function ProjectPage({ slug }: { slug: string }) {
           <div className="project-header-left">
             <h1 className="project-title">{project.title}</h1>
             <p className="project-subtitle">{project.subtitle}</p>
+            {project.tags && project.tags.length > 0 && (
+              <div className="project-tags">
+                {project.tags.map((tag, i) => (
+                  <span key={i} className="project-tag">{tag}</span>
+                ))}
+              </div>
+            )}
           </div>
           <div className="project-header-right">
             <p className="project-collab-label">Collaborators</p>

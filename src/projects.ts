@@ -23,6 +23,7 @@ export interface Project {
   title: string
   subtitle: string
   heroImage: string
+  tags?: string[]
   collaborators: Collaborator[]
   context: ContentBlock[]
   sections: ProjectSection[]
@@ -34,6 +35,7 @@ export const projects: Project[] = [
     title: 'Launching the Benny Card',
     subtitle: 'An all-hands effort to release our flagship Visa credit card, alongside a seamless digital experience.',
     heroImage: '/benny-wide.png',
+    tags: ['consumer fintech', 'mobile'],
     collaborators: [
       { name: 'TBD', role: 'Product Manager' },
       { name: 'TBD', role: 'iOS Engineer' },
