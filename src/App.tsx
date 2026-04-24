@@ -13,7 +13,7 @@ function useRoute() {
   return hash
 }
 
-function LiveClock() {
+export function LiveClock() {
   const [time, setTime] = useState(new Date())
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function LiveClock() {
 const ASCII_CHARS = ['✻', '✽', '✶', '✳', '✢']
 const ASCII_CHARS_MOBILE = ['✻', '✽', '✶', '•', '✢']
 
-function AsciiSpinner() {
+export function AsciiSpinner() {
   const chars = window.matchMedia('(max-width: 480px)').matches ? ASCII_CHARS_MOBILE : ASCII_CHARS
   const [i, setI] = useState(0)
 
