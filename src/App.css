@@ -129,7 +129,7 @@ body {
   position: absolute;
   left: calc(100% + 3px);
   color: var(--text);
-  font-size: 14.5px;
+  font-size: 14px;
   opacity: 0;
   transition: opacity 0.15s;
 }
