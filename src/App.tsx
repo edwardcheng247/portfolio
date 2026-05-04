@@ -97,7 +97,7 @@ const shouts = [
     quote: '"If we don\'t hire Edward, I\'m quitting!"',
     name: 'Steve',
     from: 'CTO, post-interview [allegedly]',
-    company: 'Benny / ex-CashApp, Uber, Brex',
+    company: 'Benny / Now @ OpenAI',
     colorClass: 'steve',
   },
 ]
