@@ -79,12 +79,11 @@ const shouts = [
     colorClass: 'nick',
   },
   {
-    quote:
-      '"Thrives within existing design systems, and flourishes when given the opportunity to create something new."',
-    name: 'Matt',
-    from: 'Senior Software Engineer',
-    company: 'UrbanFootprint',
-    colorClass: 'matt',
+    quote: '"He\'d frame the tradeoffs, surface options I hadn\'t considered, then go execute through the ambiguity. As a founder, you need people you can trust like that."',
+    name: 'Rishi',
+    from: 'CEO',
+    company: 'Benny / Ex-Cash App',
+    colorClass: 'rishi',
   },
   {
     quote: '"Edward was the glue person for my design team... he consistently went above and beyond."',
@@ -99,6 +98,14 @@ const shouts = [
     from: 'CTO, post-interview [allegedly]',
     company: 'Benny / Now @ OpenAI',
     colorClass: 'steve',
+  },
+  {
+    quote:
+      '"Thrives within existing design systems, and flourishes when given the opportunity to create something new."',
+    name: 'Matt',
+    from: 'Senior Software Engineer',
+    company: 'UrbanFootprint',
+    colorClass: 'matt',
   },
 ]
 

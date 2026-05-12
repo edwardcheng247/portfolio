@@ -598,6 +598,7 @@ button,
 .shout-card[data-person="matt"] { cursor: url('/cursor-matt.svg') 5 3, pointer; }
 .shout-card[data-person="stephen"] { cursor: url('/cursor-stephen.svg') 5 3, pointer; }
 .shout-card[data-person="steve"] { cursor: url('/cursor-steve.svg') 5 3, pointer; }
+.shout-card[data-person="rishi"] { cursor: url('/cursor-rishi.svg') 5 3, pointer; }
 
 body.cursor-flipped a,
 body.cursor-flipped button,
@@ -611,6 +612,7 @@ body.cursor-flipped .shout-card[data-person="nick"] { cursor: url('/cursor-nick-
 body.cursor-flipped .shout-card[data-person="matt"] { cursor: url('/cursor-matt-left.svg') 24 3, pointer; }
 body.cursor-flipped .shout-card[data-person="stephen"] { cursor: url('/cursor-stephen-left.svg') 24 3, pointer; }
 body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-steve-left.svg') 24 3, pointer; }
+body.cursor-flipped .shout-card[data-person="rishi"] { cursor: url('/cursor-rishi-left.svg') 24 3, pointer; }
 
 /* ── Shout tooltip colors ── */
 
@@ -625,6 +627,7 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
 .work-tooltip--matt { color: #60b87a; box-shadow: inset 0 0 0 1px rgba(96, 184, 122, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
 .work-tooltip--stephen { color: #6888cc; box-shadow: inset 0 0 0 1px rgba(104, 136, 204, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
 .work-tooltip--steve { color: #c9a84c; box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
+.work-tooltip--rishi { color: #cc7a5e; box-shadow: inset 0 0 0 1px rgba(204, 122, 94, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
 
 /* ── Mobile ── */
 
@@ -664,6 +667,7 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
   .work-tooltip--matt    { box-shadow: inset 0 0 0 1px rgba(96, 184, 122, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
   .work-tooltip--stephen { box-shadow: inset 0 0 0 1px rgba(104, 136, 204, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
   .work-tooltip--steve   { box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
+  .work-tooltip--rishi   { box-shadow: inset 0 0 0 1px rgba(204, 122, 94, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
 
   .work-tooltip--nick::after,
   .work-tooltip--matt::after,
@@ -683,6 +687,7 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
   .work-tooltip--matt::after    { border-top-color: rgba(96, 184, 122, 0.5); }
   .work-tooltip--stephen::after { border-top-color: rgba(104, 136, 204, 0.5); }
   .work-tooltip--steve::after   { border-top-color: rgba(201, 168, 76, 0.5); }
+  .work-tooltip--rishi::after   { border-top-color: rgba(204, 122, 94, 0.5); }
 
   .site {
     padding: 0 24px;
@@ -727,7 +732,7 @@ body.cursor-flipped .shout-card[data-person="steve"] { cursor: url('/cursor-stev
   }
 
   /* Hide duplicate cards on mobile */
-  .shouts-track > :nth-child(n+5) {
+  .shouts-track > :nth-child(n+6) {
     display: none;
   }
 
