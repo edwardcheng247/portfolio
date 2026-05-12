@@ -245,6 +245,10 @@ body {
   padding-left: 2px;
 }
 
+.past-lives-outcome {
+  color: #525252;
+}
+
 .past-lives-bullet {
   display: none;
 }
@@ -806,6 +810,10 @@ body.cursor-flipped .shout-card[data-person="rishi"] { cursor: url('/cursor-rish
     display: revert;
     font-size: 12px;
     padding-left: 0;
+  }
+
+  .past-lives-outcome {
+    display: none;
   }
 
 

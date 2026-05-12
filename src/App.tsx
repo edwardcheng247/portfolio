@@ -55,9 +55,9 @@ export function AsciiSpinner() {
 }
 
 const pastLives = [
-  { role: 'Founding Designer at Benny', stage: '[SEED]', period: '2024\u2009–\u20092026' },
-  { role: 'Product Designer at UrbanFootprint', stage: '[SERIES B]', period: '2019\u2009–\u20092024' },
-  { role: 'Visual Designer at FactoryFour', stage: '[SERIES A]', period: '2018\u2009–\u20092019' },
+  { role: 'Founding Designer at Benny', stage: '[SEED]', outcome: null, period: '2024\u2009–\u20092026' },
+  { role: 'Product Designer at UrbanFootprint', stage: '[SERIES B', outcome: ' → ACQ', period: '2019\u2009–\u20092024' },
+  { role: 'Visual Designer at FactoryFour', stage: '[SERIES A', outcome: ' → ACQ', period: '2018\u2009–\u20092019' },
 ]
 
 // Computes a card width so that each quote lands on roughly the same number of lines.
@@ -414,7 +414,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
               <div key={item.role} className="past-lives-row">
                 <span className="past-lives-role">{item.role}</span>
                 <span className="past-lives-years">
-                  <span className="past-lives-stage">{item.stage}</span>
+                  <span className="past-lives-stage">{item.stage}{item.outcome && <span className="past-lives-outcome">{item.outcome}</span>}{item.outcome ? ']' : ''}</span>
                   <span className="past-lives-bullet">{'\u2009•\u2009'}</span>
                   <span className="past-lives-period">{item.period}</span>
                 </span>
