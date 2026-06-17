@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { DotGrid } from './DotGrid'
 import { ProjectPage } from './ProjectPage'
+import { workCards, type WorkCard } from './projects'
 import './App.css'
 
 function useRoute() {
@@ -128,6 +129,55 @@ function Home() {
   const cardBoundsRef = useRef<{ yMin: number; yMax: number }>({ yMin: 0, yMax: window.innerHeight })
 const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
   const [row2Flex, setRow2Flex] = useState({ left: 1, right: 1 })
+
+  const renderWorkCard = (card: WorkCard, flex: number | undefined, onAspect?: (ratio: number) => void) => {
+    const onLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+      const img = e.currentTarget
+      img.classList.add('work-image--loaded')
+      img.closest('.work-card')?.classList.add('work-card--loaded')
+      onAspect?.(img.naturalWidth / img.naturalHeight)
+    }
+    const image = (
+      <img src={card.image} alt={card.title} width={card.width} height={card.height} className="work-image" onLoad={onLoad} />
+    )
+    const inner = card.imageMobile ? (
+      <picture>
+        <source media="(max-width: 768px)" srcSet={card.imageMobile} />
+        {image}
+      </picture>
+    ) : image
+    const wideClass = flex === undefined ? ' work-card--wide' : ''
+    const style = flex !== undefined ? { flex } : undefined
+    const onMouseLeave = () => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }
+
+    // Stashed cards (no slug) are display-only: no link, no "Read Case Study" subtitle.
+    if (!card.slug) {
+      return (
+        <div
+          key={card.title}
+          className={`work-card glass-card work-card--stashed${wideClass}`}
+          style={style}
+          data-tooltip={card.title}
+          onMouseLeave={onMouseLeave}
+        >
+          {inner}
+        </div>
+      )
+    }
+    return (
+      <a
+        key={card.slug}
+        className={`work-card glass-card work-link${wideClass}`}
+        style={style}
+        href={`#/project/${card.slug}`}
+        data-tooltip={card.title}
+        data-tooltip-sub="Read Case Study"
+        onMouseLeave={onMouseLeave}
+      >
+        {inner}
+      </a>
+    )
+  }
   const shoutsTrackRef = useRef<HTMLDivElement>(null)
   const shoutsCarouselRef = useRef<HTMLDivElement>(null)
   const isDraggingCarouselRef = useRef(false)
@@ -363,7 +413,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
     <DotGrid />
 <div
       ref={tooltipRef}
-      className={`work-tooltip${tooltip.visible ? ' work-tooltip--visible' : ''}${tooltip.flipped ? ' work-tooltip--flipped' : ''}${tooltip.colorClass ? ` work-tooltip--${tooltip.colorClass}` : ''}`}
+      className={`work-tooltip${tooltip.visible ? ' work-tooltip--visible' : ''}${tooltip.flipped ? ' work-tooltip--flipped' : ''}${tooltip.colorClass ? ` work-tooltip--${tooltip.colorClass}` : ''}${!tooltip.subtext && !tooltip.colorClass ? ' work-tooltip--muted' : ''}`}
       style={{ left: tooltip.x, top: tooltip.y }}
       onTouchStart={(e) => {
         e.stopPropagation()
@@ -392,7 +442,12 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
       }}
     >
       {tooltip.text}
-      {tooltip.subtext && <span className="tooltip-subtext">{tooltip.subtext}</span>}
+      {tooltip.subtext && (
+        <span className={`tooltip-subtext${tooltip.colorClass ? '' : ' tooltip-subtext--cta'}`}>
+          {tooltip.subtext}
+          {!tooltip.colorClass && <span className="tooltip-subtext-arrow">↗</span>}
+        </span>
+      )}
     </div>
     <header className={`nav-wrapper${navVisible ? '' : ' nav-wrapper--hidden'}${navScrolled ? ' nav-wrapper--scrolled' : ''}`}>
       <nav className="nav">
@@ -426,113 +481,14 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
         <section className="section section--work" id="work">
           <p className="section-label">Selected work</p>
           <div className="work-grid">
+            {renderWorkCard(workCards[0], undefined)}
             <div className="work-row-dynamic">
-              <div
-                className="work-card glass-card work-link"
-                style={{ flex: row1Flex.left }}
-                data-tooltip="Benny Card"
-                onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
-              >
-                <img
-                  src="/benny_card.png"
-                  alt="Benny Card"
-                  width={1642}
-                  height={844}
-                  className="work-image"
-                  onLoad={e => {
-                    const img = e.currentTarget
-                    img.classList.add('work-image--loaded')
-                    img.closest('.work-card')?.classList.add('work-card--loaded')
-                    setRow1Flex(prev => ({ ...prev, left: img.naturalWidth / img.naturalHeight }))
-                  }}
-                />
-              </div>
-              <div
-                className="work-card glass-card work-link"
-                style={{ flex: row1Flex.right }}
-                data-tooltip="UrbanFootprint"
-                onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
-              >
-                <img
-                  src="/urbanfootprint_series_b.png"
-                  alt="UrbanFootprint"
-                  width={1390}
-                  height={704}
-                  className="work-image"
-                  onLoad={e => {
-                    const img = e.currentTarget
-                    img.classList.add('work-image--loaded')
-                    img.closest('.work-card')?.classList.add('work-card--loaded')
-                    setRow1Flex(prev => ({ ...prev, right: img.naturalWidth / img.naturalHeight }))
-                  }}
-                />
-              </div>
+              {renderWorkCard(workCards[1], row1Flex.left, r => setRow1Flex(prev => ({ ...prev, left: r })))}
+              {renderWorkCard(workCards[2], row1Flex.right, r => setRow1Flex(prev => ({ ...prev, right: r })))}
             </div>
             <div className="work-row-dynamic">
-              <div
-                className="work-card glass-card work-link"
-                style={{ flex: row2Flex.left }}
-                data-tooltip="Benny API"
-                onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
-              >
-                <picture>
-                  <source media="(max-width: 768px)" srcSet="/benny_merchants_mobile.png" />
-                  <img
-                    src="/benny_merchants.png"
-                    alt="Benny Merchants"
-                    width={1014}
-                    height={2332}
-                    className="work-image"
-                    onLoad={e => {
-                      const img = e.currentTarget
-                      img.classList.add('work-image--loaded')
-                      img.closest('.work-card')?.classList.add('work-card--loaded')
-                      setRow2Flex(prev => ({ ...prev, left: img.naturalWidth / img.naturalHeight }))
-                    }}
-                  />
-                </picture>
-              </div>
-              <div
-                className="work-card glass-card work-link"
-                style={{ flex: row2Flex.right }}
-                data-tooltip="Benny Dashboards"
-                onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
-              >
-                <img
-                  src="/benny_dashboards.png"
-                  alt="Benny Dashboards"
-                  width={2502}
-                  height={3132}
-                  className="work-image"
-                  onLoad={e => {
-                    const img = e.currentTarget
-                    img.classList.add('work-image--loaded')
-                    img.closest('.work-card')?.classList.add('work-card--loaded')
-                    setRow2Flex(prev => ({ ...prev, right: img.naturalWidth / img.naturalHeight }))
-                  }}
-                />
-              </div>
-            </div>
-            <div
-              className="work-card work-card--wide glass-card work-link"
-              data-tooltip="Benny App"
-              onMouseLeave={() => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }}
-            >
-              <picture>
-                <source media="(max-width: 768px)" srcSet="/benny_app_mobile.png" />
-                <img
-                  src="/benny_app.png"
-                  alt="Benny App"
-                  width={2070}
-                  height={844}
-                  className="work-image"
-                  onLoad={e => {
-                    const img = e.currentTarget
-                    img.classList.add('work-image--loaded')
-                    img.closest('.work-card')?.classList.add('work-card--loaded')
-                  }}
-                />
-              </picture>
+              {renderWorkCard(workCards[3], row2Flex.left, r => setRow2Flex(prev => ({ ...prev, left: r })))}
+              {renderWorkCard(workCards[4], row2Flex.right, r => setRow2Flex(prev => ({ ...prev, right: r })))}
             </div>
           </div>
         </section>

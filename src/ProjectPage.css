@@ -152,6 +152,10 @@
   box-sizing: border-box;
 }
 
+.project-figure-link {
+  display: block;
+}
+
 .project-figure-img {
   display: block;
   width: 100%;
@@ -171,9 +175,7 @@
 .project-footer-nav {
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid var(--border);
-  padding-top: 20px;
-  margin-top: 80px;
+  margin-top: 72px;
   max-width: 680px;
 }
 
@@ -181,11 +183,16 @@
   font-size: 13.5px;
   color: var(--text-muted);
   text-decoration: none;
-  transition: color 0.15s;
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
 }
 
 .project-nav-link:hover {
   color: var(--text);
+  border-color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.045);
 }
 
 .nav-back {

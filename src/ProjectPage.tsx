@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { DotGrid } from './DotGrid'
 import { LiveClock, AsciiSpinner } from './App'
-import { getProject } from './projects'
+import { getProject, workCards } from './projects'
 import './ProjectPage.css'
 
 export function ProjectPage({ slug }: { slug: string }) {
   const project = getProject(slug)
+  // Next project follows the homepage "Selected work" order (linked cards only,
+  // skipping stashed ones), wrapping at the end.
+  const linkedCards = workCards.filter(c => c.slug)
+  const currentIndex = linkedCards.findIndex(c => c.slug === slug)
+  const nextProject = currentIndex >= 0 ? linkedCards[(currentIndex + 1) % linkedCards.length] : null
   const [navVisible, setNavVisible] = useState(true)
   const [navScrolled, setNavScrolled] = useState(false)
   const lastScrollY = useRef(0)
@@ -22,7 +27,7 @@ export function ProjectPage({ slug }: { slug: string }) {
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [slug])
 
   if (!project) {
     return <div className="project-not-found">Project not found.</div>
@@ -34,7 +39,7 @@ export function ProjectPage({ slug }: { slug: string }) {
       <header className={`nav-wrapper${navVisible ? '' : ' nav-wrapper--hidden'}${navScrolled ? ' nav-wrapper--scrolled' : ''}`}>
         <nav className="nav">
           <a href="#" className="nav-name nav-back">
-            <span style={{ position: 'relative', top: '-0.5px' }}>←</span>{'\u2002'}Back
+            <span style={{ position: 'relative', top: '-0.5px' }}>←</span>{'\u2002'}Home
           </a>
           <div className="nav-links">
             <a href="#about">About</a>
@@ -101,7 +106,13 @@ export function ProjectPage({ slug }: { slug: string }) {
               if (block.type === 'image') {
                 return (
                   <figure key={bi} className="project-figure">
-                    <img src={block.src} alt={block.alt} className="project-figure-img" />
+                    {block.href ? (
+                      <a href={block.href} target="_blank" rel="noreferrer" className="project-figure-link">
+                        <img src={block.src} alt={block.alt} className="project-figure-img" />
+                      </a>
+                    ) : (
+                      <img src={block.src} alt={block.alt} className="project-figure-img" />
+                    )}
                     {block.caption && (
                       <figcaption className="project-caption">{block.caption}</figcaption>
                     )}
@@ -115,7 +126,15 @@ export function ProjectPage({ slug }: { slug: string }) {
 
         <nav className="project-footer-nav">
           <a href="#" className="project-nav-link">← Home</a>
-          <a href="#" className="project-nav-link">Next project →</a>
+          {nextProject && (
+            <a
+              href={`#/project/${nextProject.slug}`}
+              className="project-nav-link"
+              onClick={e => { e.preventDefault(); window.location.hash = `/project/${nextProject.slug}` }}
+            >
+              Next project: {nextProject.title} →
+            </a>
+          )}
         </nav>
       </div>
 
