@@ -129,6 +129,14 @@ function Home() {
   const cardBoundsRef = useRef<{ yMin: number; yMax: number }>({ yMin: 0, yMax: window.innerHeight })
 const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
   const [row2Flex, setRow2Flex] = useState({ left: 1, right: 1 })
+  // Prototype cards (href) only link on desktop, not mobile.
+  const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 769px)').matches)
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 769px)')
+    const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
 
   const renderWorkCard = (card: WorkCard, flex: number | undefined, onAspect?: (ratio: number) => void) => {
     const onLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -150,32 +158,51 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
     const style = flex !== undefined ? { flex } : undefined
     const onMouseLeave = () => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }
 
-    // Stashed cards (no slug) are display-only: no link, no "Read Case Study" subtitle.
-    if (!card.slug) {
+    // Internal case-study link.
+    if (card.slug) {
       return (
-        <div
-          key={card.title}
-          className={`work-card glass-card work-card--stashed${wideClass}`}
+        <a
+          key={card.slug}
+          className={`work-card glass-card work-link${wideClass}`}
           style={style}
+          href={`#/project/${card.slug}`}
           data-tooltip={card.title}
+          data-tooltip-sub="Read Case Study"
           onMouseLeave={onMouseLeave}
         >
           {inner}
-        </div>
+        </a>
       )
     }
+    // External prototype link — desktop only, opens in a new tab.
+    if (card.href && isDesktop) {
+      return (
+        <a
+          key={card.title}
+          className={`work-card glass-card work-link${wideClass}`}
+          style={style}
+          href={card.href}
+          target="_blank"
+          rel="noreferrer"
+          data-tooltip={card.title}
+          data-tooltip-sub="View prototype"
+          onMouseLeave={onMouseLeave}
+        >
+          {inner}
+        </a>
+      )
+    }
+    // Display-only: stashed cards, or prototype cards on mobile (no link, no subtitle).
     return (
-      <a
-        key={card.slug}
-        className={`work-card glass-card work-link${wideClass}`}
+      <div
+        key={card.title}
+        className={`work-card glass-card work-card--stashed${wideClass}`}
         style={style}
-        href={`#/project/${card.slug}`}
         data-tooltip={card.title}
-        data-tooltip-sub="Read Case Study"
         onMouseLeave={onMouseLeave}
       >
         {inner}
-      </a>
+      </div>
     )
   }
   const shoutsTrackRef = useRef<HTMLDivElement>(null)

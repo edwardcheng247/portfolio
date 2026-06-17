@@ -32,8 +32,11 @@ export interface Project {
 
 export interface WorkCard {
   // A card with a slug links to /project/<slug> and shows a "Read Case Study"
-  // tooltip subtitle. A card without a slug is display-only (no link, no subtitle).
+  // tooltip subtitle. A card with an href opens that URL in a new tab on
+  // desktop only (not mobile) and shows a "View prototype" subtitle. A card
+  // with neither is display-only (visible but not clickable, no subtitle).
   slug?: string
+  href?: string
   title: string
   image: string
   imageMobile?: string
@@ -44,14 +47,14 @@ export interface WorkCard {
 // Homepage "Selected work" order — single source of truth.
 // Reordering this array reorders both the homepage grid and the
 // Home / next-project links on each project page. The first card renders
-// full-width on top; the rest fill two rows. Cards without a slug are
-// stashed (visible but not clickable, omitted from project navigation).
+// full-width on top; the rest fill two rows. Cards with neither slug nor
+// href are display-only and omitted from project navigation.
 export const workCards: WorkCard[] = [
   { slug: 'benny-app', title: 'Benny App', image: '/benny_app.png', imageMobile: '/benny_app_mobile.png', width: 2070, height: 844 },
   { slug: 'benny-card', title: 'Benny Card', image: '/benny_card.png', width: 1642, height: 844 },
   { slug: 'urbanfootprint', title: 'UrbanFootprint', image: '/urbanfootprint_series_b.png', width: 1390, height: 704 },
-  { title: 'Benny API', image: '/benny_merchants.png', imageMobile: '/benny_merchants_mobile.png', width: 1014, height: 2332 },
-  { title: 'Benny Dashboards', image: '/benny_dashboards.png', width: 2502, height: 3132 },
+  { title: 'Benny API', href: '/benny-merchants.html', image: '/benny_merchants.png', imageMobile: '/benny_merchants_mobile.png', width: 1014, height: 2332 },
+  { title: 'Benny Dashboards', href: 'https://app.subframe.com/dacbdd49e5f4/sandbox/38fd543d-f7a8-4036-80b6-723fa85de274/share', image: '/benny_dashboards.png', width: 2502, height: 3132 },
 ]
 
 export const projects: Project[] = [
