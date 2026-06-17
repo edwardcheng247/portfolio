@@ -93,7 +93,7 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/slide-benny-app-audit.png',
+            src: '/bennyapp_audit.png',
             alt: 'Audit of the existing homepage — banner, Benny Card, SNAP balances, promo cards, deals, SNAP offers all competing',
             caption: 'Auditing existing components: no neutral elements — everything competes for attention.',
           },
@@ -113,7 +113,7 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/slide-benny-app-maxmin.png',
+            src: '/bennyapp_max-min.png',
             alt: 'Max and min state definitions for the redesigned homepage',
             caption: 'Bounding the problem: the homepage had to hold up at both extremes.',
           },
@@ -129,7 +129,7 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/benny_app-building-block.png',
+            src: '/bennyapp_component.png',
             alt: 'The building block component stacked and appended to a Benny Card balance header',
             caption: 'The building block: one component that stacks, rows, and appends — shown here under the Benny Card balance.',
           },
@@ -139,18 +139,9 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/benny_app-simplifying-balances.png',
+            src: '/bennyapp_simplifying.png',
             alt: 'Original homepage next to the simplified redesign',
-          },
-          {
-            type: 'image',
-            src: '/benny_app-simplifying-offers.png',
-            alt: 'Original homepage next to the simplified redesign',
-          },
-          {
-            type: 'image',
-            src: '/benny_app-simplifying-promos.png',
-            alt: 'Original homepage next to the simplified redesign',
+            caption: 'Simplifying each section on the homepage using our new component.',
           },
         ],
       },
@@ -180,7 +171,7 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/benny_app-union-square.png',
+            src: '/bennyapp_before-after.png',
             alt: 'Final homepage refresh shown in both max and min states',
             caption: 'The shipped homepage, optimized for both min and max states.',
           },
@@ -191,21 +182,25 @@ export const projects: Project[] = [
         heading: '70% more earners per signup',
         blocks: [
           {
-            type: 'image',
-            src: '/slide-benny-app-earners.png',
-            alt: '70% more earners per signup, from the onboarding component',
-            caption: 'The onboarding component drove 70% more earners per signup.',
-          },
-          {
             type: 'text',
-            value: 'The simplified component language also informed Benny\'s new brand identity — the app redesign and the brand refresh fed each other.',
+            value: 'In a welcome surprise to our team, the new onboarding component drove a 70% improvement in earners per signup, from a 21% to 36% conversion in new users.',
           },
           {
             type: 'image',
-            src: '/slide-benny-app-brand.png',
-            alt: 'Old and new Benny brand identity side by side',
-            caption: 'Simplifying components helped inform the new brand identity.',
+            src: '/bennyapp_onboarding.png',
+            alt: '70% more earners per signup, from the onboarding component',
+            caption: 'The new onboarding component drove a 70% increase in earners per signup.',
           },
+//          {
+//            type: 'text',
+//            value: 'The simplified component language also informed Benny\'s new brand identity — the app redesign and the brand refresh fed each other.',
+//          },
+//          {
+//            type: 'image',
+//            src: '/slide-benny-app-brand.png',
+//            alt: 'Old and new Benny brand identity side by side',
+//            caption: 'Simplifying components helped inform the new brand identity.',
+//          },
         ],
       },
     ],
