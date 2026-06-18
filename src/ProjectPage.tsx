@@ -104,15 +104,27 @@ export function ProjectPage({ slug }: { slug: string }) {
                 )
               }
               if (block.type === 'image') {
+                const stopShimmer = (el: HTMLImageElement | null) => {
+                  if (!el) return
+                  el.style.animation = 'none'
+                  el.style.backgroundImage = 'none'
+                }
+                const img = (
+                  <img
+                    src={block.src}
+                    alt=""
+                    width={1920}
+                    height={1080}
+                    className="project-figure-img"
+                    ref={el => { if (el && el.complete && el.naturalWidth > 0) stopShimmer(el) }}
+                    onLoad={e => stopShimmer(e.currentTarget)}
+                  />
+                )
                 return (
                   <figure key={bi} className="project-figure">
                     {block.href ? (
-                      <a href={block.href} target="_blank" rel="noreferrer" className="project-figure-link">
-                        <img src={block.src} alt={block.alt} className="project-figure-img" />
-                      </a>
-                    ) : (
-                      <img src={block.src} alt={block.alt} className="project-figure-img" />
-                    )}
+                      <a href={block.href} target="_blank" rel="noreferrer" className="project-figure-link">{img}</a>
+                    ) : img}
                     {block.caption && (
                       <figcaption className="project-caption">{block.caption}</figcaption>
                     )}
