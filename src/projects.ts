@@ -155,7 +155,7 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/slide-benny-app-onboarding.png',
+            src: '/bennyapp_evolution.png',
             alt: 'Onboarding design evolution: bonus tracker, steps carousel, checklist',
             caption: 'Onboarding evolution: bonus → steps carousel → checklist.',
           },
@@ -241,9 +241,9 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/benny_card-logo-redesign.png',
+            src: '/bennycard_logos.png',
             alt: 'The refined Benny logo',
-            caption: 'The refined logo, ready for print.',
+            caption: 'The refined logos, ready for print.',
           },
         ],
       },
@@ -257,13 +257,13 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/slide-benny-card-colorways.png',
+            src: '/bennycard_colors.png',
             alt: 'Front and back of the Benny Card in Black, Pink, White, and Benny Blue',
             caption: 'Card design: four colorways, front and back.',
           },
           {
             type: 'image',
-            src: '/slide-benny-card-mailer.png',
+            src: '/bennycard_trifold.png',
             alt: 'Benny Card mailer and activation instructions',
             caption: 'The card mailer: activate in three steps from the Benny App.',
           },
@@ -279,13 +279,13 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/slide-benny-card-kyc.png',
+            src: '/bennycard_happypath.png',
             alt: 'KYC happy path screens',
             caption: 'The KYC happy path — identity verification via Plaid.',
           },
           {
             type: 'image',
-            src: '/slide-benny-card-idv.png',
+            src: '/bennycard_longerpath.png',
             alt: 'The longer application path with identity document verification',
             caption: 'The longer path with IDV, spec\'d end to end.',
           },
@@ -301,13 +301,13 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/slide-benny-card-dashboard.png',
+            src: '/bennycard_home.png',
             alt: 'Card tab with personalized card color, quick actions, manage card, and recent activity',
             caption: 'The card tab: personalized color, quick actions, and recent activity.',
           },
           {
             type: 'image',
-            src: '/slide-benny-card-wallet.png',
+            src: '/bennycard_applewallet.png',
             alt: 'Add to Apple Wallet flow',
             caption: 'Apple Wallet support, so the card works before the plastic arrives.',
           },
@@ -317,7 +317,7 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/benny_card-add-money.png',
+            src: '/bennycard_addmoney.png',
             alt: 'Add to Apple Wallet flow',
             caption: 'To offset same-day ACH costs: speed varies for money movement.',
           },
@@ -339,7 +339,7 @@ export const projects: Project[] = [
         blocks: [
           {
             type: 'image',
-            src: '/slide-benny-card-results.png',
+            src: '/bennycard_waitlist.png',
             alt: 'Benny Card results: 30K waitlist, partner-approved flows, successful friends and family launch',
             caption: '30K users joined the waitlist. All UX flows approved by partners. Successful friends & family launch in late 2025.',
           },
@@ -572,19 +572,20 @@ export const projects: Project[] = [
         type: 'text',
         value: 'UrbanFootprint pairs two products: mapping for geospatial users who upload and edit data layers, and dashboards for generalists who want data at a glance. Dashboards shipped at the end of Q1 2024 — and by the end of Q2, less than 4% of users had ever created one. The product built for non-technical users was invisible to them.',
       },
-      {
-        type: 'text',
-        value: 'The root cause was the post-login flow: users were dropped straight into the last mapping project they\'d opened.',
-      },
     ],
     sections: [
       {
         label: 'The problem',
         heading: 'One flow failing two audiences',
         blocks: [
+           
+          {
+            type: 'text',
+            value: 'The root cause was the post-login flow: users were dropped straight into the last mapping project they\'d opened.',
+          },
           {
             type: 'image',
-            src: '/slide-uf-feedback.png',
+            src: '/uf_login.png',
             alt: 'User feedback on the post-login flow, from both technical and non-technical customers',
             caption: 'The post-login flow wasn\'t ideal for either user profile.',
           },
@@ -604,7 +605,7 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/urbanfootprint_first-pass.png',
+            src: '/uf_firstpass.png',
             alt: 'New design system components: typography, cards, buttons, dropdowns, search, hover and active states',
             caption: 'A first mock designed to minimize engineering lift.',
           },
@@ -614,7 +615,7 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/slide-uf-components.png',
+            src: '/uf_designsystem.png',
             alt: 'New design system components: typography, cards, buttons, dropdowns, search, hover and active states',
             caption: 'Designing the component set for the homepage — the seed of the new design language.',
           },
@@ -630,7 +631,7 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/urbanfootprint_references.png',
+            src: '/uf_references.png',
             alt: 'Second design pass for the homepage',
             caption: 'I pulled together references for leadership to critique.',
           },
@@ -640,7 +641,7 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/urbanfootprint_jtbd.png',
+            src: '/uf_jtbd.png',
             alt: 'Second design pass for the homepage',
             caption: 'I ended the workshop by having folks align on "jobs to be done."',
           },
@@ -656,7 +657,7 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/urbanfootprint_second-pass.png',
+            src: '/uf_secondpass.png',
             alt: 'Second design pass for the homepage',
             caption: 'The second pass with our new design language.',
           },
@@ -666,10 +667,40 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/urbanfootprint_final-pass.png',
+            src: '/uf_finalpass.png',
             alt: 'Final design spec for the UrbanFootprint homepage',
             caption: 'The final spec: one unified view of projects, dashboards, and templates with real use-case descriptions.',
             href: 'https://www.figma.com/proto/RKvw882oYowkxcJAdZNkZc/%E2%AD%90-Q2-2024---Analyst-Homepage?node-id=5490-4057&node-type=FRAME&t=VFj7MP6Cwf9IpxHj-0&scaling=scale-down-width&content-scaling=fixed&page-id=2527%3A2&starting-point-node-id=5490%3A4057&hide-ui=1',
+          },
+        ],
+      },
+      {
+        label: 'Features',
+        heading: 'Refining the edges',
+        blocks: [
+          {
+            type: 'text',
+            value: 'To give users full control over all their assets, the chevron buttons take users to a table view where they can see all projects and dashboards in their org, along with metadata and editing actions:',
+          },
+          {
+            type: 'image',
+            src: '/uf_table.png',
+            alt: 'Second design pass for the homepage',
+            caption: 'The table view gives users even more control over their projects.',
+          },
+          {
+            type: 'text',
+            value: 'From the nav menu, users can search on all assets in their org, as well as switch orgs altogether.',
+          },
+          {
+            type: 'image',
+            src: '/uf_search.png',
+            caption: 'Users can search on both dashboards and projects.',
+          },
+          {
+            type: 'image',
+            src: '/uf_orgs.png',
+            caption: 'Users can switch orgs if they are part of multiple.',
           },
         ],
       },
@@ -683,9 +714,9 @@ export const projects: Project[] = [
           },
           {
             type: 'image',
-            src: '/urbanfootprint_next-steps.png',
+            src: '/uf_notifications.png',
             alt: 'Next steps: design language refresh, usage data, and a notification system',
-            caption: 'Looking ahead: design language rollout, metrics, and notifications.',
+            caption: 'Looking ahead: users receive notifications of teammate activity.',
           },
         ],
       },
