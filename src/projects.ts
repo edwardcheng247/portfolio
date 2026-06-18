@@ -63,7 +63,7 @@ export const projects: Project[] = [
   {
     slug: 'benny-app',
     title: 'Benny App: a homepage built to scale',
-    subtitle: 'Unifying the mobile design system around one neutral building block — so the homepage could absorb every product line on the roadmap, and new users could find their first win faster.',
+    subtitle: 'Unifying the mobile design system — so the homepage could absorb every product line on the roadmap, and new users could find their first win faster.',
     heroImage: '/benny_app.png',
     tags: ['consumer fintech', 'mobile', 'design systems'],
     collaborators: [
@@ -97,7 +97,7 @@ export const projects: Project[] = [
           },
           {
             type: 'text',
-            value: 'But the real problem was structural, not just aesthetic. The roadmap called for adding Benny Card, Deals, and affiliate links to this same screen, and the existing layout simply had nowhere to grow.',
+            value: 'But the real problem was structural, not just visual. The roadmap called for adding Benny Card, Deals, and affiliate links to this same screen, and the existing layout simply had nowhere to grow.',
           },
         ],
       },
@@ -264,7 +264,7 @@ export const projects: Project[] = [
         blocks: [
           {
             type: 'text',
-            value: 'The application flow verified identity through Plaid, collected a mailing address, and let users pick their card color. I spec\'d the happy path first, then the longer path with full identity document verification — and designed distinct communication for each outcome: approval (your card is on its way), pending (we\'ll notify you in a few days), and rejection (a respectful, plain-language explanation, because how you say no matters).',
+            value: 'The application flow verified identity through Plaid, collected a mailing address, and let users pick their card color. I spec\'d the happy path first, then the longer path with full identity document verification — and designed distinct communication for each outcome: approval, pending, and rejection.',
           },
           {
             type: 'image',
@@ -648,7 +648,7 @@ export const projects: Project[] = [
         blocks: [
           {
             type: 'text',
-            value: 'To give users full control over all their assets, the chevron buttons take them to a table view where they can see every project and dashboard in their org, along with metadata and editing actions:',
+            value: 'To give users full control over all their assets, they can also see a condensed table view of every project and dashboard in their org, along with metadata and editing actions:',
           },
           {
             type: 'image',
