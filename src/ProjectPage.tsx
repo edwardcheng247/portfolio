@@ -43,7 +43,7 @@ export function ProjectPage({ slug }: { slug: string }) {
           </a>
           <div className="nav-links">
             <a href="#about">About</a>
-            <a href="#work">Work</a>
+            <a href="#work" className="nav-active">Work</a>
             <a href="https://resume.edwardcheng.co/" target="_blank" rel="noreferrer" className="nav-cv"><span className="nav-cv-arrow">↗</span>CV</a>
           </div>
         </nav>

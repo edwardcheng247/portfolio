@@ -159,8 +159,43 @@ body {
   padding: 48px 0;
 }
 
+.section--intro {
+  padding: 72px 0 84px;
+}
+
+.home-intro {
+  font-family: var(--serif);
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+  /* The text rests dim; a bright glow rises at the cursor's X (--shimmer-x),
+     scaling with how close the cursor is to the text (--shimmer-strength).
+     Far away → strength 0 → uniform dim (no glow). Both set in App.tsx. */
+  background: linear-gradient(
+    100deg,
+    rgb(255 255 255 / 0.7) 35%,
+    rgb(255 255 255 / calc(0.7 + 0.3 * var(--shimmer-strength, 0))) 50%,
+    rgb(255 255 255 / 0.7) 65%
+  );
+  background-size: 200% auto;
+  background-position: var(--shimmer-x, 50%) center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transition: background-position 0.2s ease-out;
+}
+
+@media (min-width: 769px) {
+  .home-intro {
+    margin-top: 12px;
+  }
+}
+
 .section--work {
-  padding-top: 24px;
+  padding-top: 48px;
   padding-bottom: 96px;
 }
 
@@ -734,8 +769,17 @@ body.cursor-flipped .shout-card[data-person="rishi"] { cursor: url('/cursor-rish
     padding: 36px 0;
   }
 
+  .section--intro {
+    padding-top: 42px;
+    padding-bottom: 64px;
+  }
+
   .section--work {
     padding-bottom: 64px;
+  }
+
+  #about {
+    padding-top: 40px;
   }
 
   .section--shouts {

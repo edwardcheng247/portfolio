@@ -216,6 +216,16 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
         el.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`)
         el.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`)
       })
+      const introEl = document.querySelector<HTMLElement>('.home-intro')
+      if (introEl) {
+        const r = introEl.getBoundingClientRect()
+        introEl.style.setProperty('--shimmer-x', `${e.clientX - r.left - r.width}px`)
+        // Highlight strength tracks how close the cursor is to the text.
+        const dx = Math.max(r.left - e.clientX, 0, e.clientX - r.right)
+        const dy = Math.max(r.top - e.clientY, 0, e.clientY - r.bottom)
+        const strength = Math.max(0, Math.min(1, 1 - Math.hypot(dx, dy) / 260))
+        introEl.style.setProperty('--shimmer-strength', String(strength))
+      }
       const workLink = (e.target as Element).closest<HTMLElement>('[data-tooltip]')
       const isMobile = window.innerWidth <= 768
       if (workLink && !(isMobile && workLink.dataset.person) && !isDraggingCarouselRef.current) {
@@ -406,6 +416,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
         if (dt > 5) flickVel = (b.x - a.x) / dt
       }
       // Cap speed; set excess so total velocity at release = flick velocity
+      //  ☻ ツ ❤ 
       const capped = Math.max(-5, Math.min(5, flickVel))
       s.excessVel = capped - s.autoVel
     }
@@ -489,6 +500,13 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
     <div className="site">
 
       <main className="main">
+        <section className="section section--intro">
+          <h1 className="home-intro">Hello&#8202;!&ensp;I'm an AI-native product designer who ⚡️&nbsp;moves fast &#8202;+ 🌀&nbsp;cares about craft&#8202;.</h1>
+       
+        </section>
+
+        <div className="divider glow-line" role="separator" />
+
         <section className="section" id="about">
           <p className="section-label">Past Lives</p>
           <div className="past-lives">
@@ -504,6 +522,8 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
             ))}
           </div>
         </section>
+
+        <div className="divider glow-line" role="separator" />
 
         <section className="section section--work" id="work">
           <p className="section-label">Selected work</p>
