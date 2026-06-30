@@ -208,6 +208,10 @@ body {
   display: none;
 }
 
+.intro-craft-mobile {
+  display: none;
+}
+
 .intro-exclamation {
   font-weight: 250;
 }
@@ -858,6 +862,14 @@ body.cursor-flipped .shout-card[data-person="rishi"] { cursor: url('/cursor-rish
   }
 
   .intro-greeting-mobile {
+    display: inline;
+  }
+
+  .intro-craft-desktop {
+    display: none !important;
+  }
+
+  .intro-craft-mobile {
     display: inline;
   }
 
