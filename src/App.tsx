@@ -128,9 +128,9 @@ function Home() {
     visible: false,
     x: 0,
     y: 0,
-    image: '/edward-cursor-portrait.png',
+    image: '',
     isMedia: false,
-    kind: 'profile',
+    kind: '',
   })
   const tooltipRef = useRef<HTMLDivElement>(null)
   const tooltipDragRef = useRef<{ startX: number; startY: number; origX: number; origY: number; yMin: number; yMax: number } | null>(null)
@@ -239,9 +239,9 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
       }
       const phraseBadge = targetEl?.closest<HTMLElement>('[data-intro-cursor-image]')
       const introBadgeVisible = Boolean(phraseBadge)
-      const introBadgeImage = phraseBadge?.dataset.introCursorImage ?? '/edward-cursor-portrait.png'
+      const introBadgeImage = phraseBadge?.dataset.introCursorImage ?? ''
       const introBadgeIsMedia = Boolean(phraseBadge)
-      const introBadgeKind = phraseBadge?.dataset.introCursorKind ?? 'profile'
+      const introBadgeKind = phraseBadge?.dataset.introCursorKind ?? ''
       setIntroCursorBadge(prev => {
         if (!introBadgeVisible && !prev.visible) return prev
         if (!introBadgeVisible) return { ...prev, visible: false, x: e.clientX, y: e.clientY }
@@ -477,13 +477,15 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
   return (
     <>
     <DotGrid />
-    <div
-      className={`intro-cursor-badge${introCursorBadge.visible ? ' intro-cursor-badge--visible' : ''}${introCursorBadge.isMedia ? ' intro-cursor-badge--media' : ''} intro-cursor-badge--${introCursorBadge.kind}`}
-      style={{ left: introCursorBadge.x, top: introCursorBadge.y }}
-      aria-hidden="true"
-    >
-      <img src={introCursorBadge.image} alt="" />
-    </div>
+    {introCursorBadge.image && (
+      <div
+        className={`intro-cursor-badge${introCursorBadge.visible ? ' intro-cursor-badge--visible' : ''}${introCursorBadge.isMedia ? ' intro-cursor-badge--media' : ''}${introCursorBadge.kind ? ` intro-cursor-badge--${introCursorBadge.kind}` : ''}`}
+        style={{ left: introCursorBadge.x, top: introCursorBadge.y }}
+        aria-hidden="true"
+      >
+        <img src={introCursorBadge.image} alt="" />
+      </div>
+    )}
 <div
       ref={tooltipRef}
       className={`work-tooltip${tooltip.visible ? ' work-tooltip--visible' : ''}${tooltip.flipped ? ' work-tooltip--flipped' : ''}${tooltip.colorClass ? ` work-tooltip--${tooltip.colorClass}` : ''}${!tooltip.subtext && !tooltip.colorClass ? ' work-tooltip--muted' : ''}`}
