@@ -225,18 +225,6 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
         el.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`)
         el.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`)
       })
-      const introEl = document.querySelector<HTMLElement>('.home-intro')
-      if (introEl) {
-        const r = introEl.getBoundingClientRect()
-        introEl.style.setProperty('--shimmer-x', `${e.clientX - r.left - r.width}px`)
-        introEl.style.setProperty('--shimmer-local-x', `${e.clientX - r.left}px`)
-        introEl.style.setProperty('--shimmer-local-y', `${e.clientY - r.top}px`)
-        // Highlight strength tracks how close the cursor is to the text.
-        const dx = Math.max(r.left - e.clientX, 0, e.clientX - r.right)
-        const dy = Math.max(r.top - e.clientY, 0, e.clientY - r.bottom)
-        const strength = Math.max(0, Math.min(1, 1 - Math.hypot(dx, dy) / 260))
-        introEl.style.setProperty('--shimmer-strength', String(strength))
-      }
       const phraseBadge = targetEl?.closest<HTMLElement>('[data-intro-cursor-image]')
       const introBadgeVisible = Boolean(phraseBadge)
       const introBadgeImage = phraseBadge?.dataset.introCursorImage ?? ''
@@ -538,13 +526,15 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
 
       <main className="main">
         <section className="section section--intro">
-          <h1 className="home-intro" aria-label="Hello! I'm an AI-native product designer who moves fast and cares about craft.">
+          <h1 className="home-intro" aria-label="Hi there! I'm an AI-native product designer who moves fast and cares about craft.">
             <span className="home-intro-text">
-              Hello&#8202;!&ensp;I'm an AI-native product designer who{' '}
-              <span data-intro-cursor-image="/cursor-moves-fast.png" data-intro-cursor-kind="moves">⚡️&nbsp;moves fast</span>
+              <span className="intro-greeting-desktop" data-intro-cursor-image="/cursor-hi-there.png" data-intro-cursor-kind="hi">Hi there</span>
+              <span className="intro-greeting-mobile">Hello</span>
+              &#8202;&#8202;!&#8202; I'm an AI-native product designer who{' '}
+              <span data-intro-cursor-image="/cursor-moves-fast.png" data-intro-cursor-kind="moves">moves fast</span>
               {' + '}
-              <span data-intro-cursor-image="/cursor-craft.png" data-intro-cursor-kind="craft">🌀&nbsp;cares about craft</span>
-              &#8202;.
+              <span data-intro-cursor-image="/cursor-craft.gif" data-intro-cursor-kind="craft">cares about craft</span>
+              &#8202;&#8202;.
             </span>
           </h1>
        

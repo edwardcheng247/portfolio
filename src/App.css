@@ -160,7 +160,7 @@ body {
 }
 
 .section--intro {
-  padding: 72px 0 84px;
+  padding: 72px 0 108px;
 }
 
 .home-intro {
@@ -168,55 +168,45 @@ body {
   font-family: var(--serif);
   font-size: clamp(32px, 5vw, 56px);
   font-weight: 200;
-  line-height: 1.16;
+  line-height: 1.2;
   letter-spacing: -0.02em;
   margin: 0;
-  cursor: url('/cursor-pointer.svg') 5 3, default;
+  cursor: default;
 }
 
 .home-intro-text {
   display: block;
-  /* The text rests dim; a bright glow rises at the cursor's X (--shimmer-x),
-     scaling with how close the cursor is to the text (--shimmer-strength).
-     Far away → strength 0 → uniform dim (no glow). Both set in App.tsx. */
-  background: linear-gradient(
-    100deg,
-    rgb(255 255 255 / 0.7) 35%,
-    rgb(
-      calc(255 - 34 * var(--shimmer-strength, 0))
-      calc(255 - 6 * var(--shimmer-strength, 0))
-      calc(255 - 42 * var(--shimmer-strength, 0))
-      / calc(0.7 + 0.26 * var(--shimmer-strength, 0))
-    ) 46%,
-    rgb(
-      calc(255 - 48 * var(--shimmer-strength, 0))
-      calc(255 - 30 * var(--shimmer-strength, 0))
-      calc(255 - 8 * var(--shimmer-strength, 0))
-      / calc(0.7 + 0.3 * var(--shimmer-strength, 0))
-    ) 50%,
-    rgb(
-      calc(255 - 10 * var(--shimmer-strength, 0))
-      calc(255 - 38 * var(--shimmer-strength, 0))
-      calc(255 - 14 * var(--shimmer-strength, 0))
-      / calc(0.7 + 0.24 * var(--shimmer-strength, 0))
-    ) 54%,
-    rgb(255 255 255 / 0.7) 65%
-  );
-  background-size: 200% auto;
-  background-position: var(--shimmer-x, 50%) center;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  transition: background-position 0.2s ease-out, opacity 0.2s ease-out;
-}
-
-.home-intro-text {
   font-weight: 200;
+  color: rgb(255 255 255 / 0.7);
 }
 
+/* The two highlighted phrases light up white on hover. */
 .home-intro-text [data-intro-cursor-image] {
   display: inline-block;
+  position: relative;
+  --intro-squiggle-rgb: 182 102 76;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  cursor: url('/cursor-pointer.svg') 5 3, pointer;
+}
+
+.home-intro-text [data-intro-cursor-kind="hi"] {
+  --intro-squiggle-rgb: 204 122 94;
+}
+
+.home-intro-text [data-intro-cursor-kind="moves"] {
+  --intro-squiggle-rgb: 88 148 108;
+}
+
+.home-intro-text [data-intro-cursor-kind="craft"] {
+  --intro-squiggle-rgb: 104 136 204;
+}
+
+.intro-greeting-mobile {
+  display: none;
+}
+
+.home-intro-text [data-intro-cursor-image]:hover {
+  color: #ffffff;
 }
 
 .intro-cursor-badge {
@@ -259,7 +249,11 @@ body {
 }
 
 .intro-cursor-badge--craft {
-  width: 112px;
+  width: 132px;
+}
+
+.intro-cursor-badge--hi {
+  width: 176px;
 }
 
 .intro-cursor-badge img {
@@ -277,6 +271,41 @@ body {
 @media (min-width: 769px) {
   .home-intro {
     margin-top: 12px;
+    line-height: 1.24;
+  }
+
+  /* Squiggly underline beneath the two highlighted phrases */
+  .home-intro-text [data-intro-cursor-image]::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.5px;
+    height: 5px;
+    background: rgb(var(--intro-squiggle-rgb) / 0.58);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='11' height='6' viewBox='0 0 11 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,3 2.75,1 5.5,3 8.25,5 11,3' fill='none' stroke='black' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg width='11' height='6' viewBox='0 0 11 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,3 2.75,1 5.5,3 8.25,5 11,3' fill='none' stroke='black' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
+    -webkit-mask-repeat: repeat-x;
+    mask-repeat: repeat-x;
+    -webkit-mask-size: 11px 6px;
+    mask-size: 11px 6px;
+    transition: background 0.2s ease;
+  }
+
+  .home-intro-text [data-intro-cursor-image]:hover::after {
+    background: rgb(var(--intro-squiggle-rgb) / 0.92);
+    animation: intro-squiggle-slide 0.55s linear infinite;
+  }
+}
+
+@keyframes intro-squiggle-slide {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+  to {
+    -webkit-mask-position: -11px 0;
+    mask-position: -11px 0;
   }
 }
 
@@ -795,6 +824,19 @@ body.cursor-flipped .shout-card[data-person="rishi"] { cursor: url('/cursor-rish
     display: none;
   }
 
+  /* Let the highlighted phrases wrap naturally on small screens */
+  .home-intro-text [data-intro-cursor-image] {
+    display: inline;
+  }
+
+  .intro-greeting-desktop {
+    display: none !important;
+  }
+
+  .intro-greeting-mobile {
+    display: inline;
+  }
+
   .glass-card, .glow-line {
     --glow-alpha: 0;
     transition: --glow-alpha 0.5s ease-out;
@@ -901,6 +943,10 @@ body.cursor-flipped .shout-card[data-person="rishi"] { cursor: url('/cursor-rish
   /* Hide duplicate cards on mobile */
   .shouts-track > :nth-child(n+6) {
     display: none;
+  }
+
+  .shout-card[data-person="steve"] {
+    order: 5;
   }
 
   .work-grid {
