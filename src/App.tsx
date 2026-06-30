@@ -544,7 +544,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
             <span className="home-intro-text">
               <span className="intro-greeting-desktop" data-intro-cursor-image="/cursor-hi-there.png" data-intro-cursor-kind="hi">Hi there</span>
               <span className="intro-greeting-mobile">Hello</span>
-              &#8202;&#8202;<span className="intro-exclamation">!</span>&#8202; I'm an AI-native product designer who{' '}
+              &#8202;&#8202;<span className="intro-exclamation">!</span>&#8202;&#8202; I'm an AI-native product designer who{' '}
               <span data-intro-cursor-image="/cursor-moves-fast.png" data-intro-cursor-kind="moves">moves fast</span>
               {' + '}
               <span data-intro-cursor-image="/cursor-craft.gif" data-intro-cursor-kind="craft">cares about craft</span>

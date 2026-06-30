@@ -193,10 +193,11 @@ body {
 
 .home-intro-text [data-intro-cursor-kind="hi"] {
   --intro-squiggle-rgb: 204 122 94;
+  cursor: url('/cursor-pointer-bottom-left.svg') 5 21, pointer;
 }
 
 .home-intro-text [data-intro-cursor-kind="moves"] {
-  --intro-squiggle-rgb: 88 148 108;
+  --intro-squiggle-rgb: 80 136 100;
 }
 
 .home-intro-text [data-intro-cursor-kind="craft"] {
@@ -238,7 +239,7 @@ body {
 }
 
 .intro-cursor-badge--media {
-  width: 96px;
+  width: 108px;
   height: auto;
   overflow: visible;
   border: 2px solid rgb(255 255 255 / 0.95);
@@ -255,11 +256,17 @@ body {
 }
 
 .intro-cursor-badge--craft {
-  width: 132px;
+  width: 146px;
 }
 
 .intro-cursor-badge--hi {
-  width: 176px;
+  width: 194px;
+  transform: translate(18px, calc(-100% - 16px)) scale(0.82);
+  transform-origin: left bottom;
+}
+
+.intro-cursor-badge--hi.intro-cursor-badge--visible {
+  transform: translate(18px, calc(-100% - 16px)) scale(1);
 }
 
 .intro-cursor-badge img {
