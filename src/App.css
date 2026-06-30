@@ -164,19 +164,42 @@ body {
 }
 
 .home-intro {
+  position: relative;
   font-family: var(--serif);
   font-size: clamp(32px, 5vw, 56px);
-  font-weight: 300;
-  line-height: 1.1;
+  font-weight: 200;
+  line-height: 1.16;
   letter-spacing: -0.02em;
   margin: 0;
+  cursor: url('/cursor-pointer.svg') 5 3, default;
+}
+
+.home-intro-text {
+  display: block;
   /* The text rests dim; a bright glow rises at the cursor's X (--shimmer-x),
      scaling with how close the cursor is to the text (--shimmer-strength).
      Far away → strength 0 → uniform dim (no glow). Both set in App.tsx. */
   background: linear-gradient(
     100deg,
     rgb(255 255 255 / 0.7) 35%,
-    rgb(255 255 255 / calc(0.7 + 0.3 * var(--shimmer-strength, 0))) 50%,
+    rgb(
+      calc(255 - 34 * var(--shimmer-strength, 0))
+      calc(255 - 6 * var(--shimmer-strength, 0))
+      calc(255 - 42 * var(--shimmer-strength, 0))
+      / calc(0.7 + 0.26 * var(--shimmer-strength, 0))
+    ) 46%,
+    rgb(
+      calc(255 - 48 * var(--shimmer-strength, 0))
+      calc(255 - 30 * var(--shimmer-strength, 0))
+      calc(255 - 8 * var(--shimmer-strength, 0))
+      / calc(0.7 + 0.3 * var(--shimmer-strength, 0))
+    ) 50%,
+    rgb(
+      calc(255 - 10 * var(--shimmer-strength, 0))
+      calc(255 - 38 * var(--shimmer-strength, 0))
+      calc(255 - 14 * var(--shimmer-strength, 0))
+      / calc(0.7 + 0.24 * var(--shimmer-strength, 0))
+    ) 54%,
     rgb(255 255 255 / 0.7) 65%
   );
   background-size: 200% auto;
@@ -185,7 +208,70 @@ body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  transition: background-position 0.2s ease-out;
+  transition: background-position 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+.home-intro-text {
+  font-weight: 200;
+}
+
+.home-intro-text [data-intro-cursor-image] {
+  display: inline-block;
+}
+
+.intro-cursor-badge {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 120;
+  width: 34px;
+  height: 34px;
+  overflow: hidden;
+  border: 2px solid rgb(255 255 255 / 0.95);
+  border-radius: 999px;
+  pointer-events: none;
+  transform: translate(15px, 19px) scale(0.82);
+  opacity: 0;
+  box-shadow: 0 5px 18px rgb(0 0 0 / 0.24);
+  transition: opacity 0.12s ease, transform 0.16s ease;
+}
+
+.intro-cursor-badge--visible {
+  opacity: 1;
+  transform: translate(15px, 19px) scale(1);
+}
+
+.intro-cursor-badge--media {
+  width: 96px;
+  height: auto;
+  overflow: visible;
+  border: 2px solid rgb(255 255 255 / 0.95);
+  border-radius: 0;
+  box-shadow: 0 5px 18px rgb(0 0 0 / 0.24);
+}
+
+.intro-cursor-badge--media {
+  transform: translate(19px, 23px) scale(0.82);
+}
+
+.intro-cursor-badge--media.intro-cursor-badge--visible {
+  transform: translate(19px, 23px) scale(1);
+}
+
+.intro-cursor-badge--craft {
+  width: 112px;
+}
+
+.intro-cursor-badge img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.intro-cursor-badge--media img {
+  height: auto;
+  object-fit: contain;
 }
 
 @media (min-width: 769px) {
@@ -702,6 +788,10 @@ body.cursor-flipped .shout-card[data-person="rishi"] { cursor: url('/cursor-rish
 @media (max-width: 768px) {
 
   .dot-grid-canvas {
+    display: none;
+  }
+
+  .intro-cursor-badge {
     display: none;
   }
 

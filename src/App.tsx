@@ -124,6 +124,14 @@ function Home() {
     y: 0,
     flipped: false,
   })
+  const [introCursorBadge, setIntroCursorBadge] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    image: '/edward-cursor-portrait.png',
+    isMedia: false,
+    kind: 'profile',
+  })
   const tooltipRef = useRef<HTMLDivElement>(null)
   const tooltipDragRef = useRef<{ startX: number; startY: number; origX: number; origY: number; yMin: number; yMax: number } | null>(null)
   const cardBoundsRef = useRef<{ yMin: number; yMax: number }>({ yMin: 0, yMax: window.innerHeight })
@@ -211,6 +219,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
+      const targetEl = e.target instanceof Element ? e.target : null
       document.querySelectorAll<HTMLElement>('.glass-card, .glow-line').forEach(el => {
         const rect = el.getBoundingClientRect()
         el.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`)
@@ -220,13 +229,26 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
       if (introEl) {
         const r = introEl.getBoundingClientRect()
         introEl.style.setProperty('--shimmer-x', `${e.clientX - r.left - r.width}px`)
+        introEl.style.setProperty('--shimmer-local-x', `${e.clientX - r.left}px`)
+        introEl.style.setProperty('--shimmer-local-y', `${e.clientY - r.top}px`)
         // Highlight strength tracks how close the cursor is to the text.
         const dx = Math.max(r.left - e.clientX, 0, e.clientX - r.right)
         const dy = Math.max(r.top - e.clientY, 0, e.clientY - r.bottom)
         const strength = Math.max(0, Math.min(1, 1 - Math.hypot(dx, dy) / 260))
         introEl.style.setProperty('--shimmer-strength', String(strength))
       }
-      const workLink = (e.target as Element).closest<HTMLElement>('[data-tooltip]')
+      const phraseBadge = targetEl?.closest<HTMLElement>('[data-intro-cursor-image]')
+      const introBadgeVisible = Boolean(phraseBadge)
+      const introBadgeImage = phraseBadge?.dataset.introCursorImage ?? '/edward-cursor-portrait.png'
+      const introBadgeIsMedia = Boolean(phraseBadge)
+      const introBadgeKind = phraseBadge?.dataset.introCursorKind ?? 'profile'
+      setIntroCursorBadge(prev => {
+        if (!introBadgeVisible && !prev.visible) return prev
+        if (!introBadgeVisible) return { ...prev, visible: false, x: e.clientX, y: e.clientY }
+        return { visible: introBadgeVisible, x: e.clientX, y: e.clientY, image: introBadgeImage, isMedia: introBadgeIsMedia, kind: introBadgeKind }
+      })
+
+      const workLink = targetEl?.closest<HTMLElement>('[data-tooltip]')
       const isMobile = window.innerWidth <= 768
       if (workLink && !(isMobile && workLink.dataset.person) && !isDraggingCarouselRef.current) {
         const tooltipWidth = tooltipRef.current ? tooltipRef.current.offsetWidth : 160
@@ -239,6 +261,9 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
         document.body.classList.toggle('cursor-flipped', flipped)
         setTooltip({ visible: true, text: workLink.dataset.tooltip!, subtext: workLink.dataset.tooltipSub, colorClass: workLink.dataset.tooltipColor, x, y: e.clientY, flipped })
       }
+    }
+    const handleMouseLeave = () => {
+      setIntroCursorBadge(badge => ({ ...badge, visible: false }))
     }
     const handleScroll = () => {
       const y = window.scrollY
@@ -260,6 +285,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
       if (window.innerWidth <= 768) {
         setTooltip(t => ({ ...t, visible: false }))
       }
+      setIntroCursorBadge(badge => ({ ...badge, visible: false }))
     }
     const handleTouchStart = (e: TouchEvent) => {
       const workLink = (e.target as Element).closest<HTMLElement>('[data-tooltip]')
@@ -302,12 +328,14 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
       }, 250)
     }
     window.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseleave', handleMouseLeave)
     window.addEventListener('scroll', handleScroll, { passive: true })
     window.addEventListener('touchstart', handleTouchStart, { passive: true })
     window.addEventListener('touchmove', handleTouchMove, { passive: true })
     window.addEventListener('touchend', handleTouchEnd, { passive: true })
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseleave', handleMouseLeave)
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('touchmove', handleTouchMove)
@@ -449,6 +477,13 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
   return (
     <>
     <DotGrid />
+    <div
+      className={`intro-cursor-badge${introCursorBadge.visible ? ' intro-cursor-badge--visible' : ''}${introCursorBadge.isMedia ? ' intro-cursor-badge--media' : ''} intro-cursor-badge--${introCursorBadge.kind}`}
+      style={{ left: introCursorBadge.x, top: introCursorBadge.y }}
+      aria-hidden="true"
+    >
+      <img src={introCursorBadge.image} alt="" />
+    </div>
 <div
       ref={tooltipRef}
       className={`work-tooltip${tooltip.visible ? ' work-tooltip--visible' : ''}${tooltip.flipped ? ' work-tooltip--flipped' : ''}${tooltip.colorClass ? ` work-tooltip--${tooltip.colorClass}` : ''}${!tooltip.subtext && !tooltip.colorClass ? ' work-tooltip--muted' : ''}`}
@@ -491,7 +526,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
       <nav className="nav">
         <span className="nav-name">Edward Cheng</span>
         <div className="nav-links">
-          <a href="#about" className={activeSection === 'about' ? 'nav-active' : ''} onClick={e => { e.preventDefault(); document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }) }}>About</a>
+          <a href="#" className={activeSection === 'about' ? 'nav-active' : ''} onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>About</a>
           <a href="#work" className={activeSection === 'work' ? 'nav-active' : ''} onClick={e => { e.preventDefault(); document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' }) }}>Work</a>
           <a href="https://resume.edwardcheng.co/" target="_blank" rel="noreferrer" className="nav-cv"><span className="nav-cv-arrow">↗</span>CV</a>
         </div>
@@ -501,7 +536,15 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
 
       <main className="main">
         <section className="section section--intro">
-          <h1 className="home-intro">Hello&#8202;!&ensp;I'm an AI-native product designer who ⚡️&nbsp;moves fast &#8202;+ 🌀&nbsp;cares about craft&#8202;.</h1>
+          <h1 className="home-intro" aria-label="Hello! I'm an AI-native product designer who moves fast and cares about craft.">
+            <span className="home-intro-text">
+              Hello&#8202;!&ensp;I'm an AI-native product designer who{' '}
+              <span data-intro-cursor-image="/cursor-moves-fast.png" data-intro-cursor-kind="moves">⚡️&nbsp;moves fast</span>
+              {' + '}
+              <span data-intro-cursor-image="/cursor-craft.png" data-intro-cursor-kind="craft">🌀&nbsp;cares about craft</span>
+              &#8202;.
+            </span>
+          </h1>
        
         </section>
 

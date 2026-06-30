@@ -140,9 +140,15 @@ export function DotGrid() {
         dot.angle = lerpAngle(dot.angle, targetAngle, usedLerp)
 
         const influence = Math.max(0, (dot.len - 0.5) / 2.5)
-        const blend = influence * 0.35
-        const gCh = Math.round(255 * (1 - blend) + 140 * blend)
-        const bCh = Math.round(255 * (1 - blend))
+        const tint = influence * 0.42
+        const shimmer = (Math.sin(dot.bx * 0.018 + dot.by * 0.014 + dot.angle * 1.8) + 1) / 2
+        const blueBias = Math.sin(shimmer * Math.PI)
+        const rTarget = 220 - blueBias * 24
+        const gTarget = 252 - shimmer * 22
+        const bTarget = 246 + shimmer * 9
+        const rCh = Math.round(255 * (1 - tint) + rTarget * tint)
+        const gCh = Math.round(255 * (1 - tint) + gTarget * tint)
+        const bCh = Math.round(255 * (1 - tint) + bTarget * tint)
 
         ctx.lineWidth = 0.6 + influence * 0.15
         const alpha = 0.10 + (dot.len / 3) * 0.1
@@ -151,7 +157,7 @@ export function DotGrid() {
         ctx.beginPath()
         ctx.moveTo(dot.cx - cos * dot.len, dot.cy - sin * dot.len)
         ctx.lineTo(dot.cx + cos * dot.len, dot.cy + sin * dot.len)
-        ctx.strokeStyle = `rgba(255,${gCh},${bCh},${alpha.toFixed(3)})`
+        ctx.strokeStyle = `rgba(${rCh},${gCh},${bCh},${alpha.toFixed(3)})`
         ctx.stroke()
       }
 
