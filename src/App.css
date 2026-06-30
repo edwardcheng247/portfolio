@@ -186,6 +186,7 @@ body {
   position: relative;
   --intro-squiggle-rgb: 182 102 76;
   font-weight: 500;
+  color: rgb(255 255 255 / 0.78);
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
   cursor: url('/cursor-pointer.svg') 5 3, pointer;
 }
@@ -830,8 +831,19 @@ body.cursor-flipped .shout-card[data-person="rishi"] { cursor: url('/cursor-rish
   }
 
   /* Let the highlighted phrases wrap naturally on small screens */
+  .home-intro-text {
+    color: rgb(255 255 255 / 0.85);
+    font-weight: 200;
+  }
+
   .home-intro-text [data-intro-cursor-image] {
     display: inline;
+    font-weight: inherit;
+    color: inherit;
+  }
+
+  .intro-exclamation {
+    font-weight: inherit;
   }
 
   .intro-greeting-desktop {
