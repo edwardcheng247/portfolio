@@ -110,6 +110,8 @@ const shouts = [
   },
 ]
 
+const introCursorImages = ['/cursor-hi-there.png', '/cursor-moves-fast.png', '/cursor-craft.gif']
+
 function Home() {
   const [navVisible, setNavVisible] = useState(true)
   const [navScrolled, setNavScrolled] = useState(false)
@@ -144,6 +146,18 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
     const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches)
     mq.addEventListener('change', onChange)
     return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  useEffect(() => {
+    introCursorImages.forEach(src => {
+      const img = new Image()
+      img.src = src
+      if (img.decode) {
+        void img.decode().catch(() => {
+          // GIF decode support varies; setting src above is the important preload path.
+        })
+      }
+    })
   }, [])
 
   const renderWorkCard = (card: WorkCard, flex: number | undefined, onAspect?: (ratio: number) => void) => {
@@ -471,7 +485,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
         style={{ left: introCursorBadge.x, top: introCursorBadge.y }}
         aria-hidden="true"
       >
-        <img src={introCursorBadge.image} alt="" />
+        <img key={introCursorBadge.image} src={introCursorBadge.image} alt="" decoding="async" draggable={false} />
       </div>
     )}
 <div
