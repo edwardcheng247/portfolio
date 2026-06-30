@@ -111,6 +111,9 @@ const shouts = [
 ]
 
 const introCursorImages = ['/cursor-hi-there.png', '/cursor-moves-fast.png', '/cursor-craft.gif']
+const HI_THERE_TOOLTIP_HEIGHT = 130
+const HI_THERE_TOOLTIP_GAP = 16
+const VIEWPORT_EDGE_MARGIN = 8
 
 function Home() {
   const [navVisible, setNavVisible] = useState(true)
@@ -133,6 +136,7 @@ function Home() {
     image: '',
     isMedia: false,
     kind: '',
+    placement: 'below',
   })
   const tooltipRef = useRef<HTMLDivElement>(null)
   const tooltipDragRef = useRef<{ startX: number; startY: number; origX: number; origY: number; yMin: number; yMax: number } | null>(null)
@@ -244,10 +248,22 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
       const introBadgeImage = phraseBadge?.dataset.introCursorImage ?? ''
       const introBadgeIsMedia = Boolean(phraseBadge)
       const introBadgeKind = phraseBadge?.dataset.introCursorKind ?? ''
+      const hiNeedsBelow =
+        introBadgeKind === 'hi' &&
+        e.clientY - HI_THERE_TOOLTIP_HEIGHT - HI_THERE_TOOLTIP_GAP < VIEWPORT_EDGE_MARGIN
+      document.body.classList.toggle('intro-hi-below', hiNeedsBelow)
       setIntroCursorBadge(prev => {
         if (!introBadgeVisible && !prev.visible) return prev
         if (!introBadgeVisible) return { ...prev, visible: false, x: e.clientX, y: e.clientY }
-        return { visible: introBadgeVisible, x: e.clientX, y: e.clientY, image: introBadgeImage, isMedia: introBadgeIsMedia, kind: introBadgeKind }
+        return {
+          visible: introBadgeVisible,
+          x: e.clientX,
+          y: e.clientY,
+          image: introBadgeImage,
+          isMedia: introBadgeIsMedia,
+          kind: introBadgeKind,
+          placement: hiNeedsBelow ? 'below' : 'above',
+        }
       })
 
       const workLink = targetEl?.closest<HTMLElement>('[data-tooltip]')
@@ -266,6 +282,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
     }
     const handleMouseLeave = () => {
       setIntroCursorBadge(badge => ({ ...badge, visible: false }))
+      document.body.classList.remove('intro-hi-below')
     }
     const handleScroll = () => {
       const y = window.scrollY
@@ -288,6 +305,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
         setTooltip(t => ({ ...t, visible: false }))
       }
       setIntroCursorBadge(badge => ({ ...badge, visible: false }))
+      document.body.classList.remove('intro-hi-below')
     }
     const handleTouchStart = (e: TouchEvent) => {
       const workLink = (e.target as Element).closest<HTMLElement>('[data-tooltip]')
@@ -481,7 +499,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
     <DotGrid />
     {introCursorBadge.image && (
       <div
-        className={`intro-cursor-badge${introCursorBadge.visible ? ' intro-cursor-badge--visible' : ''}${introCursorBadge.isMedia ? ' intro-cursor-badge--media' : ''}${introCursorBadge.kind ? ` intro-cursor-badge--${introCursorBadge.kind}` : ''}`}
+        className={`intro-cursor-badge${introCursorBadge.visible ? ' intro-cursor-badge--visible' : ''}${introCursorBadge.isMedia ? ' intro-cursor-badge--media' : ''}${introCursorBadge.kind ? ` intro-cursor-badge--${introCursorBadge.kind}` : ''}${introCursorBadge.kind === 'hi' && introCursorBadge.placement === 'below' ? ' intro-cursor-badge--hi-below' : ''}`}
         style={{ left: introCursorBadge.x, top: introCursorBadge.y }}
         aria-hidden="true"
       >

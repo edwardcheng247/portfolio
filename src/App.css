@@ -196,6 +196,10 @@ body {
   cursor: url('/cursor-pointer-bottom-left.svg') 5 21, pointer;
 }
 
+body.intro-hi-below .home-intro-text [data-intro-cursor-kind="hi"] {
+  cursor: url('/cursor-pointer.svg') 5 3, pointer;
+}
+
 .home-intro-text [data-intro-cursor-kind="moves"] {
   --intro-squiggle-rgb: 80 136 100;
 }
@@ -273,6 +277,15 @@ body {
   transform: translate(18px, calc(-100% - 16px)) scale(1);
 }
 
+.intro-cursor-badge--hi-below {
+  transform: translate(19px, 23px) scale(0.82);
+  transform-origin: left top;
+}
+
+.intro-cursor-badge--hi-below.intro-cursor-badge--visible {
+  transform: translate(19px, 23px) scale(1);
+}
+
 .intro-cursor-badge img {
   width: 100%;
   height: 100%;
@@ -345,7 +358,7 @@ body {
 .divider {
   position: relative;
   border: none;
-  height: 1px;
+  height: 4.5px;
   margin: 0 0 12px;
   background: #2d2d2d;
 }
@@ -367,6 +380,16 @@ body {
   background:
     radial-gradient(220px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px), rgba(255, 255, 255, calc(0.09 * var(--glow-alpha))), rgba(255, 255, 255, calc(0.015 * var(--glow-alpha))) 55%, transparent 80%),
     linear-gradient(#2d2d2d, #2d2d2d);
+}
+
+.divider,
+.divider::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='11' height='6' viewBox='0 0 11 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,3 2.75,1 5.5,3 8.25,5 11,3' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg width='11' height='6' viewBox='0 0 11 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,3 2.75,1 5.5,3 8.25,5 11,3' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: 11px 6px;
+  mask-size: 11px 6px;
 }
 
 /* ── Past Lives ── */
