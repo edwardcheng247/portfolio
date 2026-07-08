@@ -39,6 +39,10 @@
   will-change: transform;
 }
 
+html {
+  overscroll-behavior: none;
+}
+
 body {
   background: var(--bg);
   color: var(--text);

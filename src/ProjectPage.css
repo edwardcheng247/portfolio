@@ -22,7 +22,7 @@
   inset: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  overscroll-behavior: contain;
+  overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
   outline: none;
   animation: overlay-slide-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -30,13 +30,24 @@
 
 /* Home recedes slightly behind the overlay, anchored to the visible viewport */
 .home-root {
-  transform-origin: 50% var(--home-origin-y, 50%);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+  transition: filter 0.5s ease;
 }
 
 body.overlay-open .home-root {
-  transform: scale(1.02);
   filter: blur(6px);
+}
+
+.home-root .site {
+  transform-origin: 50% var(--home-origin-y, 50%);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.overlay-open .home-root .site {
+  transform: scale(1.02);
+}
+
+body.overlay-open {
+  overscroll-behavior: none;
 }
 
 .overlay-panel {
@@ -151,6 +162,10 @@ body.overlay-open .home-root {
   flex-shrink: 0;
 }
 
+.overlay-next-label-mobile {
+  display: none;
+}
+
 .project-overlay--closing .overlay-close,
 .project-overlay--closing .overlay-next {
   animation: overlay-fade-out 0.2s ease both;
@@ -200,6 +215,10 @@ body.overlay-open .home-root {
   }
 
   body.overlay-open .home-root {
+    filter: none;
+  }
+
+  body.overlay-open .home-root .site {
     transform: none;
   }
 }
@@ -430,6 +449,14 @@ body.overlay-open .home-root {
     height: 40px;
     padding: 0 15px;
     gap: 7px;
+  }
+
+  .overlay-next-label-desktop {
+    display: none;
+  }
+
+  .overlay-next-label-mobile {
+    display: inline;
   }
 
   .project-page {

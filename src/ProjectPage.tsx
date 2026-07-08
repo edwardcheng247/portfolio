@@ -67,8 +67,39 @@ export function ProjectOverlay({ slug, onClose }: { slug: string; onClose: () =>
       })
     }
     el.addEventListener('scroll', onScroll, { passive: true })
+
+    const atScrollEdge = (dy: number) => {
+      const maxScroll = el.scrollHeight - el.clientHeight
+      if (maxScroll <= 0) return Math.abs(dy) > 0
+      if (el.scrollTop <= 0 && dy < 0) return true
+      if (el.scrollTop >= maxScroll - 1 && dy > 0) return true
+      return false
+    }
+
+    const onWheel = (e: WheelEvent) => {
+      if (atScrollEdge(e.deltaY)) e.preventDefault()
+    }
+
+    let lastTouchY = 0
+    const onTouchStart = (e: TouchEvent) => {
+      lastTouchY = e.touches[0]?.clientY ?? 0
+    }
+    const onTouchMove = (e: TouchEvent) => {
+      const y = e.touches[0]?.clientY ?? lastTouchY
+      const dy = lastTouchY - y
+      lastTouchY = y
+      if (atScrollEdge(dy)) e.preventDefault()
+    }
+
+    el.addEventListener('wheel', onWheel, { passive: false })
+    el.addEventListener('touchstart', onTouchStart, { passive: true })
+    el.addEventListener('touchmove', onTouchMove, { passive: false })
+
     return () => {
       el.removeEventListener('scroll', onScroll)
+      el.removeEventListener('wheel', onWheel)
+      el.removeEventListener('touchstart', onTouchStart)
+      el.removeEventListener('touchmove', onTouchMove)
       if (raf) cancelAnimationFrame(raf)
     }
   }, [slug])
@@ -215,7 +246,8 @@ export function ProjectOverlay({ slug, onClose }: { slug: string; onClose: () =>
           href={cardHash(nextProject)}
           onClick={goToNext}
         >
-          Next project
+          <span className="overlay-next-label-desktop">Next project</span>
+          <span className="overlay-next-label-mobile">Next</span>
           <svg className="overlay-next-arrow" width="11" height="10" viewBox="0 0 13 12" fill="none" aria-hidden="true">
             <path d="M7 1l5 5-5 5M12 6H1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>

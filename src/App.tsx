@@ -307,7 +307,22 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
       setIntroCursorBadge(badge => ({ ...badge, visible: false }))
       document.body.classList.remove('intro-hi-below')
     }
+
+    let lastOverscrollTouchY = 0
+    const atScrollEdge = (dy: number) => {
+      if (document.body.classList.contains('overlay-open')) return false
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+      if (maxScroll <= 0) return Math.abs(dy) > 0
+      if (window.scrollY <= 0 && dy < 0) return true
+      if (window.scrollY >= maxScroll - 1 && dy > 0) return true
+      return false
+    }
+    const handleWheel = (e: WheelEvent) => {
+      if (atScrollEdge(e.deltaY)) e.preventDefault()
+    }
+
     const handleTouchStart = (e: TouchEvent) => {
+      lastOverscrollTouchY = e.touches[0]?.clientY ?? 0
       const workLink = (e.target as Element).closest<HTMLElement>('[data-tooltip]')
       if (workLink && !workLink.dataset.person) {
         const touch = e.touches[0]
@@ -328,6 +343,13 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
       })
     }
     const handleTouchMove = (e: TouchEvent) => {
+      const y = e.touches[0]?.clientY ?? lastOverscrollTouchY
+      const dy = lastOverscrollTouchY - y
+      lastOverscrollTouchY = y
+      if (atScrollEdge(dy)) {
+        e.preventDefault()
+        return
+      }
       const touch = e.touches[0]
       document.querySelectorAll<HTMLElement>('.glass-card, .glow-line').forEach(el => {
         const rect = el.getBoundingClientRect()
@@ -350,13 +372,15 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
     window.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseleave', handleMouseLeave)
     window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('wheel', handleWheel, { passive: false })
     window.addEventListener('touchstart', handleTouchStart, { passive: true })
-    window.addEventListener('touchmove', handleTouchMove, { passive: true })
+    window.addEventListener('touchmove', handleTouchMove, { passive: false })
     window.addEventListener('touchend', handleTouchEnd, { passive: true })
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseleave', handleMouseLeave)
       window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('wheel', handleWheel)
       window.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('touchmove', handleTouchMove)
       window.removeEventListener('touchend', handleTouchEnd)
@@ -544,6 +568,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
         </span>
       )}
     </div>
+    <div className="home-root">
     <header className={`nav-wrapper${navVisible ? '' : ' nav-wrapper--hidden'}${navScrolled ? ' nav-wrapper--scrolled' : ''}`}>
       <nav className="nav">
         <span className="nav-name">Edward Cheng</span>
@@ -554,7 +579,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
         </div>
       </nav>
     </header>
-    <div className="site home-root">
+    <div className="site">
 
       <main className="main">
         <section className="section section--intro">
@@ -645,6 +670,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
           <AsciiSpinner /> <LiveClock />
         </div>
       </footer>
+    </div>
     </div>
     </>
   )
