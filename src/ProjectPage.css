@@ -81,19 +81,43 @@ body.overlay-open .home-root {
   display: grid;
   place-items: center;
   padding: 0;
-  border: 1px solid var(--border);
+  border: none;
   border-radius: 50%;
-  background: rgba(26, 26, 26, 0.72);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  /* Translucent fill so the backdrop blur shows when content passes under */
+  background: rgba(32, 32, 32, 0.38);
+  backdrop-filter: blur(22px) saturate(170%);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
   color: var(--text);
   animation: overlay-fade-in 0.3s ease 0.1s both;
-  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+/* Specular rim instead of a flat stroke: a translucent-white gradient ring
+   (bright toward the light, fading around) masked to a 1px edge, so it reads
+   as a lit glass edge over anything behind it — light imagery included. */
+.overlay-close::after,
+.overlay-next::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.24),
+    rgba(255, 255, 255, 0.07) 38%,
+    rgba(255, 255, 255, 0.03) 62%,
+    rgba(255, 255, 255, 0.14)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .overlay-close:hover {
-  border-color: var(--text-muted);
-  background: rgba(40, 40, 40, 0.85);
+  background: rgba(48, 48, 48, 0.55);
   transform: scale(1.05);
 }
 
@@ -109,18 +133,17 @@ body.overlay-open .home-root {
   color: var(--text);
   text-decoration: none;
   padding: 10px 16px;
-  border: 1px solid var(--border);
+  border: none;
   border-radius: 100px;
-  background: rgba(26, 26, 26, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(32, 32, 32, 0.38);
+  backdrop-filter: blur(22px) saturate(170%);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
   animation: overlay-fade-in 0.3s ease 0.1s both;
-  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+  transition: background 0.18s ease, transform 0.18s ease;
 }
 
 .overlay-next:hover {
-  border-color: var(--text-muted);
-  background: rgba(40, 40, 40, 0.9);
+  background: rgba(48, 48, 48, 0.55);
   transform: scale(1.03);
 }
 
@@ -410,12 +433,22 @@ body.overlay-open .home-root {
   }
 
   .project-page {
-    padding: 36px 24px 40px;
+    padding: 0 24px 40px;
   }
 
+  /* Hero sits 4px inside the modal's resting edges (top and sides): the
+     panel's side padding totals 48px (.site 24 + .project-page 24), so
+     pulling back to the 14px clip gutter + 4px reveals a thin frame of the
+     modal around the image. Static geometry — it doesn't resize on scroll. */
   .project-hero {
+    margin-top: 4px;
     margin-bottom: 32px;
-    margin-inline: -24px;
+    margin-inline: calc(var(--overlay-gutter) + 4px - 48px);
+  }
+
+  /* Concentric with the modal corner: outer radius minus the 4px inset */
+  .project-hero-img {
+    border-radius: calc(var(--overlay-radius) - 4px);
   }
 
   .project-header {
@@ -455,11 +488,12 @@ body.overlay-open .home-root {
 
 @media (max-width: 480px) {
   .project-page {
-    padding: 32px 20px 40px;
+    padding: 0 20px 40px;
   }
 
+  /* Side padding totals 40px here (.site 20 + .project-page 20) */
   .project-hero {
-    margin-inline: -20px;
+    margin-inline: calc(var(--overlay-gutter) + 4px - 40px);
   }
 
   .project-figure {
