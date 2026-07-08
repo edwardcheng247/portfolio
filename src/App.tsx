@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { DotGrid } from './DotGrid'
-import { ProjectPage } from './ProjectPage'
+import { ProjectOverlay } from './ProjectPage'
 import { workCards, type WorkCard } from './projects'
 import './App.css'
 
@@ -554,7 +554,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
         </div>
       </nav>
     </header>
-    <div className="site">
+    <div className="site home-root">
 
       <main className="main">
         <section className="section section--intro">
@@ -652,9 +652,30 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
 
 function App() {
   const route = useRoute()
-  const projectMatch = route.match(/^#\/project\/(.+)$/)
-  if (projectMatch) return <ProjectPage slug={projectMatch[1]} />
-  return <Home />
+  const overlayMatch = route.match(/^#\/project\/(.+)$/)
+  const slug = overlayMatch?.[1] ?? null
+  const overlayKey = overlayMatch?.[0] ?? null
+  // True when the overlay was opened by navigating within the app (so closing
+  // can use history.back() and not leave a stray entry). False on deep links.
+  const openedFromHomeRef = useRef(false)
+  const prevKeyRef = useRef(overlayKey)
+  useEffect(() => {
+    if (overlayKey && !prevKeyRef.current) openedFromHomeRef.current = true
+    if (!overlayKey) openedFromHomeRef.current = false
+    prevKeyRef.current = overlayKey
+  }, [overlayKey])
+
+  const closeOverlay = () => {
+    if (openedFromHomeRef.current) window.history.back()
+    else window.location.replace('#')
+  }
+
+  return (
+    <>
+      <Home />
+      {slug && <ProjectOverlay slug={slug} onClose={closeOverlay} />}
+    </>
+  )
 }
 
 export default App

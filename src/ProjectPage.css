@@ -1,13 +1,203 @@
+/* ── Overlay chrome ── */
+
+.project-overlay {
+  --overlay-gutter: 64px;
+  --overlay-top-gap: 88px;
+  --overlay-radius: 20px;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+}
+
+.overlay-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 8, 8, 0.88);
+  animation: overlay-fade-in 0.4s ease both;
+}
+
+.overlay-scroll {
+  --overlay-p: 0;
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  outline: none;
+  animation: overlay-slide-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Home recedes slightly behind the overlay, anchored to the visible viewport */
+.home-root {
+  transform-origin: 50% var(--home-origin-y, 50%);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.overlay-open .home-root {
+  transform: scale(1.02);
+}
+
+.overlay-panel {
+  /* The panel is always laid out at full width so its content never reflows;
+     the resting side gutters are a clip that recedes as --overlay-p goes
+     0 → 1 on scroll, revealing the already-laid-out edges. */
+  --overlay-clip: calc(var(--overlay-gutter) * (1 - var(--overlay-p)));
+  --overlay-r: calc(var(--overlay-radius) * (1 - var(--overlay-p)));
+  position: relative;
+  margin-top: var(--overlay-top-gap);
+  min-height: calc(100vh - var(--overlay-top-gap));
+  background: var(--bg);
+  clip-path: inset(0 var(--overlay-clip) 0 var(--overlay-clip) round var(--overlay-r) var(--overlay-r) 0 0);
+  animation: overlay-panel-in 0.35s ease both;
+}
+
+/* Hairline edge that tracks the clipped bounds */
+.overlay-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0 var(--overlay-clip);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: var(--overlay-r) var(--overlay-r) 0 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.project-overlay--closing .overlay-backdrop {
+  animation: overlay-fade-out 0.3s ease 0.12s both;
+}
+
+.project-overlay--closing .overlay-scroll {
+  animation: overlay-slide-down 0.26s cubic-bezier(0.55, 0, 1, 0.45) both;
+}
+
+.overlay-close {
+  position: fixed;
+  top: 24px;
+  left: var(--overlay-gutter);
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: rgba(26, 26, 26, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--text);
+  animation: overlay-fade-in 0.3s ease 0.1s both;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+
+.overlay-close:hover {
+  border-color: var(--text-muted);
+  background: rgba(40, 40, 40, 0.85);
+  transform: scale(1.05);
+}
+
+.overlay-next {
+  position: fixed;
+  top: 26px;
+  right: var(--overlay-gutter);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: rgba(26, 26, 26, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  animation: overlay-fade-in 0.3s ease 0.1s both;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+
+.overlay-next:hover {
+  border-color: var(--text-muted);
+  background: rgba(40, 40, 40, 0.9);
+  transform: scale(1.03);
+}
+
+.overlay-next-arrow {
+  flex-shrink: 0;
+}
+
+.project-overlay--closing .overlay-close,
+.project-overlay--closing .overlay-next {
+  animation: overlay-fade-out 0.2s ease both;
+}
+
+@keyframes overlay-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes overlay-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Expo-style ease-out: most of the travel happens in the first ~150ms, so the
+   panel reads as surfacing from mid-page; opacity catches up even faster. */
+@keyframes overlay-slide-up {
+  from { transform: translateY(52%); opacity: 0; }
+  30% { opacity: 1; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes overlay-slide-down {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(10%); opacity: 0; }
+}
+
+/* Gentle entrance when swapping to the next project within the overlay */
+@keyframes overlay-panel-in {
+  from { opacity: 0.4; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay-backdrop,
+  .overlay-scroll,
+  .overlay-panel,
+  .overlay-close,
+  .overlay-next {
+    animation-duration: 0.01s !important;
+    animation-delay: 0s !important;
+  }
+
+  .home-root {
+    transition: none;
+  }
+
+  body.overlay-open .home-root {
+    transform: none;
+  }
+}
+
+.project-not-found {
+  padding: 140px 24px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* ── Page content ── */
+
 .project-page {
   position: relative;
   z-index: 1;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 64px 120px;
+  padding: 48px 64px 60px;
 }
 
 .project-hero {
-  margin-top: 8px;
   margin-bottom: 64px;
 }
 
@@ -158,14 +348,9 @@
 
 .project-figure {
   margin: 36px 0;
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  padding: 0 64px;
-  box-sizing: border-box;
+  /* Mobile: break out of .project-page's padding so images run wider than
+     the text column (24px from the panel edge, matching .site's padding). */
+  margin-inline: -24px;
 }
 
 .project-figure-link {
@@ -202,52 +387,35 @@
   text-align: center;
 }
 
-/* ── Footer nav ── */
-
-.project-footer-nav {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 72px;
-  max-width: 680px;
-}
-
-.project-nav-link {
-  font-size: 13.5px;
-  color: var(--text-muted);
-  text-decoration: none;
-  padding: 10px 18px;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
-}
-
-.project-nav-link:hover {
-  color: var(--text);
-  border-color: var(--text-muted);
-  background: rgba(255, 255, 255, 0.045);
-}
-
-.nav-back {
-  text-decoration: none;
-  color: var(--text) !important;
-}
-
 /* ── Mobile ── */
 
 @media (max-width: 768px) {
+  .project-overlay {
+    --overlay-gutter: 14px;
+    --overlay-top-gap: 68px;
+    --overlay-radius: 16px;
+  }
+
+  .overlay-close {
+    top: 14px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .overlay-next {
+    top: 16px;
+    font-size: 12.5px;
+    padding: 8px 13px;
+    gap: 7px;
+  }
+
   .project-page {
-    padding: 0 24px 80px;
+    padding: 36px 24px 40px;
   }
 
   .project-hero {
     margin-bottom: 32px;
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    box-sizing: border-box;
-    padding: 0 24px;
+    margin-inline: -24px;
   }
 
   .project-header {
@@ -283,22 +451,19 @@
     mask-size: 11px 6px;
   }
 
-  .project-figure {
-    padding: 0 24px;
-  }
 }
 
 @media (max-width: 480px) {
   .project-page {
-    padding: 0 20px 80px;
+    padding: 32px 20px 40px;
   }
 
   .project-hero {
-    padding: 0 20px;
+    margin-inline: -20px;
   }
 
   .project-figure {
-    padding: 0 20px;
+    margin-inline: -20px;
   }
 }
 
@@ -308,25 +473,12 @@
     margin-right: 0;
   }
 
-  .project-footer-nav {
-    margin-left: 0;
-    margin-right: 0;
-    max-width: none;
-    padding-top: 20px;
-  }
-
   .project-header {
     grid-template-columns: 1fr 180px;
   }
 
   .project-figure {
-    width: auto;
-    position: static;
-    left: auto;
-    right: auto;
-    margin-left: 0;
-    margin-right: 0;
-    padding: 0;
+    margin-inline: 0;
   }
 
   .project-caption {
