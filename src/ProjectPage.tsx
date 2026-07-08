@@ -215,8 +215,8 @@ export function ProjectOverlay({ slug, onClose }: { slug: string; onClose: () =>
           href={cardHash(nextProject)}
           onClick={goToNext}
         >
-          Next
-          <svg className="overlay-next-arrow" width="13" height="12" viewBox="0 0 13 12" fill="none" aria-hidden="true">
+          Next project
+          <svg className="overlay-next-arrow" width="11" height="10" viewBox="0 0 13 12" fill="none" aria-hidden="true">
             <path d="M7 1l5 5-5 5M12 6H1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </a>
