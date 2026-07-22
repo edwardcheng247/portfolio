@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { LiveClock, AsciiSpinner } from './App'
 import { getProject, workCards, type WorkCard } from './projects'
+import { getProjectV2 } from './projectsV2'
+import { ProjectPageV2 } from './ProjectPageV2'
+import type { SiteVersion } from './useSiteVersion'
 import './ProjectPage.css'
 
 const CLOSE_DURATION_MS = 430
@@ -9,8 +12,10 @@ const GUTTER_COLLAPSE_PX = 180
 
 const cardHash = (c: WorkCard) => `#/project/${c.slug}`
 
-export function ProjectOverlay({ slug, onClose }: { slug: string; onClose: () => void }) {
+export function ProjectOverlay({ slug, onClose, version = 'v1' }: { slug: string; onClose: () => void; version?: SiteVersion }) {
   const project = getProject(slug)
+  // v2 case studies swap the page contents inside the same overlay shell.
+  const projectV2 = version === 'v2' ? getProjectV2(slug) : undefined
   // "Next" follows case-study cards in homepage order, wrapping at the end.
   const linkedCards = workCards.filter(c => c.slug)
   const currentIndex = linkedCards.findIndex(c => c.slug === slug)
@@ -125,8 +130,25 @@ export function ProjectOverlay({ slug, onClose }: { slug: string; onClose: () =>
         tabIndex={-1}
         onClick={e => { if (e.target === e.currentTarget) close() }}
       >
-        <article className="overlay-panel" key={slug}>
-          {project ? (
+        <article className="overlay-panel" key={`${slug}-${projectV2 ? 'v2' : 'v1'}`}>
+          {projectV2 ? (
+            <div className="site" style={{ minHeight: 'unset' }}>
+              <ProjectPageV2 project={projectV2} />
+              <footer className="footer glow-line">
+                <div className="footer-links">
+                  <a href="https://linkedin.com/in/imedwardcheng" target="_blank" rel="noreferrer" className="footer-link">
+                    LinkedIn <span className="footer-arrow">↗</span>
+                  </a>
+                  <a href="mailto:edwardcheng247@gmail.com" className="footer-link">
+                    Email <span className="footer-arrow">↗</span>
+                  </a>
+                </div>
+                <div className="footer-right">
+                  <AsciiSpinner /> <LiveClock />
+                </div>
+              </footer>
+            </div>
+          ) : project ? (
             <div className="site" style={{ minHeight: 'unset' }}>
               <div className="project-page">
                 <div className="project-hero">

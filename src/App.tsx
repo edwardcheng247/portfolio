@@ -1,8 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 import { DotGrid } from './DotGrid'
 import { ProjectOverlay } from './ProjectPage'
-import { workCards, type WorkCard } from './projects'
+import { workCards, workCardsV2, type WorkCard } from './projects'
+import { useSiteVersion, type SiteVersion } from './useSiteVersion'
+import { VersionToggle } from './version'
 import './App.css'
+import './ProjectPageV2.css'
+
+// Site lock (temporary): hides the v1/v2 toggle, forces the v1 site, and makes
+// the Selected Work cards display-only (no links, tooltip keeps title only).
+// Flip to false to restore everything.
+const SITE_LOCKED: boolean = true
 
 function useRoute() {
   const [hash, setHash] = useState(window.location.hash)
@@ -115,7 +123,7 @@ const HI_THERE_TOOLTIP_HEIGHT = 130
 const HI_THERE_TOOLTIP_GAP = 16
 const VIEWPORT_EDGE_MARGIN = 8
 
-function Home() {
+function Home({ version }: { version: SiteVersion }) {
   const [navVisible, setNavVisible] = useState(true)
   const [navScrolled, setNavScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState<'about' | 'work'>('about')
@@ -143,6 +151,7 @@ function Home() {
   const cardBoundsRef = useRef<{ yMin: number; yMax: number }>({ yMin: 0, yMax: window.innerHeight })
 const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
   const [row2Flex, setRow2Flex] = useState({ left: 1, right: 1 })
+  const [row3Flex, setRow3Flex] = useState({ left: 1, right: 1 })
   // Prototype cards (href) only link on desktop, not mobile.
   const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 769px)').matches)
   useEffect(() => {
@@ -185,7 +194,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
     const onMouseLeave = () => { setTooltip(t => ({ ...t, visible: false })); document.body.classList.remove('cursor-flipped') }
 
     // Internal case-study link.
-    if (card.slug) {
+    if (card.slug && !SITE_LOCKED) {
       return (
         <a
           key={card.slug}
@@ -201,7 +210,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
       )
     }
     // External prototype link — desktop only, opens in a new tab.
-    if (card.href && isDesktop) {
+    if (card.href && isDesktop && !SITE_LOCKED) {
       return (
         <a
           key={card.title}
@@ -630,6 +639,12 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
               {renderWorkCard(workCards[3], row2Flex.left, r => setRow2Flex(prev => ({ ...prev, left: r })))}
               {renderWorkCard(workCards[4], row2Flex.right, r => setRow2Flex(prev => ({ ...prev, right: r })))}
             </div>
+            {version === 'v2' && (
+              <div className="work-row-dynamic">
+                {renderWorkCard(workCardsV2[0], row3Flex.left, r => setRow3Flex(prev => ({ ...prev, left: r })))}
+                {renderWorkCard(workCardsV2[1], row3Flex.right, r => setRow3Flex(prev => ({ ...prev, right: r })))}
+              </div>
+            )}
           </div>
         </section>
 
@@ -678,6 +693,8 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
 
 function App() {
   const route = useRoute()
+  const [version, setVersion] = useSiteVersion()
+  const effectiveVersion: SiteVersion = SITE_LOCKED ? 'v1' : version
   const overlayMatch = route.match(/^#\/project\/(.+)$/)
   const slug = overlayMatch?.[1] ?? null
   const overlayKey = overlayMatch?.[0] ?? null
@@ -698,8 +715,9 @@ function App() {
 
   return (
     <>
-      <Home />
-      {slug && <ProjectOverlay slug={slug} onClose={closeOverlay} />}
+      <Home version={effectiveVersion} />
+      {slug && <ProjectOverlay slug={slug} onClose={closeOverlay} version={effectiveVersion} />}
+      {!SITE_LOCKED && <VersionToggle version={version} onChange={setVersion} />}
     </>
   )
 }

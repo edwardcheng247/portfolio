@@ -56,6 +56,12 @@ export const workCards: WorkCard[] = [
   { title: 'Benny Dashboards', href: 'https://app.subframe.com/dacbdd49e5f4/sandbox/38fd543d-f7a8-4036-80b6-723fa85de274/share', image: '/benny_dashboards.png', width: 2502, height: 3132 },
 ]
 
+// Extra homepage cards shown only on the v2 site.
+export const workCardsV2: WorkCard[] = [
+  { slug: 'benny-deals', title: 'Benny Deals', image: '/slide-benny-deals-swipe.png', width: 1920, height: 1080 },
+  { slug: 'benny-boosts', title: 'Benny Boosts', image: '/slide-benny-boosts-ideas.png', width: 1920, height: 1080 },
+]
+
 export const projects: Project[] = [
   // ─────────────────────────────────────────────────────────
   // 1. Benny App — setting up a system to scale (1 → N)
