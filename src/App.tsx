@@ -595,7 +595,7 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
           <h1 className="home-intro" aria-label="Hi there! I'm a product designer at Substack who moves fast and cares about craft.">
             <span className="home-intro-text">
               <span className="intro-greeting-desktop" data-intro-cursor-image="/cursor-hi-there.png" data-intro-cursor-kind="hi">Hi there</span>
-              <span className="intro-greeting-mobile">Hello</span>
+              <span className="intro-greeting-mobile">Hi there</span>
               &#8202;&#8202;<span className="intro-exclamation">!</span>&#8202;&#8202; I'm a product designer at <a className="intro-substack" href="https://substack.com" target="_blank" rel="noreferrer">Substack</a> who{' '}
               <span data-intro-cursor-image="/cursor-moves-fast.png" data-intro-cursor-kind="moves">moves fast</span>
               {' '}<span className="intro-plus-desktop">+</span><span className="intro-plus-mobile">&amp;</span>{' '}
