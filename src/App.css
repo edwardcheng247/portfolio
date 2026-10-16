@@ -1051,6 +1051,12 @@ body.cursor-flipped .shout-card[data-person="rishi"] { cursor: url('/cursor-rish
     order: 5;
   }
 
+  /* Mobile: drop the CEO quote and the Benny Dashboards card */
+  .shout-card[data-person="rishi"],
+  .work-card[data-tooltip="Benny Dashboards"] {
+    display: none;
+  }
+
   .work-grid {
     grid-template-columns: 1fr;
   }
