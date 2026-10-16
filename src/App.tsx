@@ -584,7 +584,8 @@ const [row1Flex, setRow1Flex] = useState({ left: 1, right: 1 })
         <div className="nav-links">
           <a href="#" className={activeSection === 'about' ? 'nav-active' : ''} onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>About</a>
           <a href="#work" className={activeSection === 'work' ? 'nav-active' : ''} onClick={e => { e.preventDefault(); document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' }) }}>Work</a>
-          <a href="https://resume.edwardcheng.co/" target="_blank" rel="noreferrer" className="nav-cv"><span className="nav-cv-arrow">↗</span>CV</a>
+          {/* CV link stashed — uncomment to restore (styles in App.css: .nav-cv) */}
+          {/* <a href="https://resume.edwardcheng.co/" target="_blank" rel="noreferrer" className="nav-cv"><span className="nav-cv-arrow">↗</span>CV</a> */}
         </div>
       </nav>
     </header>
